@@ -15,7 +15,7 @@
 .content{
     width: 100%;
     min-height: 86vh;
-    height: 86vh;
+    height: fit-content;
     flex-grow: 1;
 }
 
