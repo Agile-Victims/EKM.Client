@@ -5,3 +5,11 @@ body{
     min-height: 100vh;
     height: fit-content;
 }
+
+.page-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: 100%;
+    height: 100%;
+}
