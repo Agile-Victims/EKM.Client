@@ -71,7 +71,7 @@
   cursor: not-allowed;
 }
 
-/* Rest of your existing base styles... */
+/* Base styles */
 .login-form-wrapper {
   width: 100%;
   max-width: 400px;
@@ -133,4 +133,31 @@
   color: #333;
   font-size: 1rem;
   outline: none;
+}
+
+.toast-error {
+  position: fixed;
+  bottom: 8%;
+  right: 2%;
+  background-color: #f4392c;
+  color: #fff;
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  font-size: 18px;
+  max-width: 10%;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
