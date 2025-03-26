@@ -1,0 +1,136 @@
+/* Student Theme */
+.login-form-container.student {
+  --login-primary-color: #4caf50;
+  --login-primary-color-dark: #2e7d32;
+  --login-gradient-light: #e6f7e6;
+  --login-gradient-dark: #4caf50;
+}
+
+/* Teacher Theme */
+.login-form-container.teacher {
+  --login-primary-color: #2196f3;
+  --login-primary-color-dark: #1565c0;
+  --login-gradient-light: #e6f2ff;
+  --login-gradient-dark: #2196f3;
+}
+
+/* Admin Theme */
+.login-form-container.admin {
+  --login-primary-color: #f44336;
+  --login-primary-color-dark: #c62828;
+  --login-gradient-light: #ffebee;
+  --login-gradient-dark: #f44336;
+}
+
+/* Modern Login Form Styles */
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 10vh;
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.login-form-container .login-form-wrapper {
+  background: linear-gradient(
+    135deg,
+    var(--login-gradient-light, #f0f0f0),
+    var(--login-primary-color, #4caf50)
+  );
+}
+
+.login-form-container .input-wrapper:focus-within {
+  border-color: var(--login-primary-color-dark, #2e7d32);
+  box-shadow: 0 0 0 3px
+    rgba(var(--login-primary-color-dark-rgb, 46, 125, 50), 0.2);
+}
+
+.login-form-container .input-wrapper:focus-within .input-icon {
+  fill: var(--login-primary-color-dark, #2e7d32);
+}
+
+.login-form-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--login-primary-color-dark, #2e7d32);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-form-container button:hover {
+  background-color: var(--login-primary-color-dark, #1b5e20);
+}
+
+.login-form-container button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Rest of your existing base styles... */
+.login-form-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.login-form-wrapper:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.login-form-wrapper h3 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.input-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  fill: #888;
+  transition: fill 0.3s ease;
+}
+
+.input-wrapper input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  padding: 12px 0;
+  color: #333;
+  font-size: 1rem;
+  outline: none;
+}
