@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginComponent } from '../../../../shared/components/login/login.component';
+import { AdminLoginService } from '../../services/admin-login.service';
+import { LoginRequest } from '../../../../shared/models/LoginRequest';
 
 
 @Component({
@@ -10,8 +12,19 @@ import { LoginComponent } from '../../../../shared/components/login/login.compon
   styleUrls: ['./admin-login-page.component.css']
 })
 export class AdminLoginPageComponent {
+
+  constructor(private loginService: AdminLoginService){}
+
   handleLogin(credentials: { email: string, password: string }): void {
-    // Replace this with your admin login API call or business logic.
-    console.log('Admin credentials:', credentials);
+    const loginRequest = new LoginRequest(credentials.email, credentials.password);
+
+      this.loginService.login(loginRequest).subscribe(
+        (response) => {
+          window.alert(`Giriş başarılı: ${response}` );
+        },
+        (error) => {
+          window.alert(`Giriş başarısız` );
+        }
+      );
   }
 }
