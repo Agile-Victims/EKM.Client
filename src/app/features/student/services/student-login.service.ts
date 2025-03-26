@@ -12,7 +12,7 @@ export class StudentLoginService {
 
   constructor(private http: HttpClient) { }
 
-  sendMailToAcademicians(loginRequest: LoginRequest): Observable<any> {
+  login(loginRequest: LoginRequest): Observable<any> {
     return this.http.post<any>(`${apiUrl}/${this.apiName}/login`, loginRequest);
   }
 }
