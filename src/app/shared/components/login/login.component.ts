@@ -28,7 +28,7 @@ export class LoginComponent {
   // Validate password: minimum 8 characters, at least one uppercase letter, one number, and one symbol (including . and ,).
   validatePassword(password: string): boolean {
     const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,])[A-Za-z\d!@#$%^&*.,]{8,}$/;
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,-])[A-Za-z\d!@#$%^&*.,-]{8,}$/;
     return passwordRegex.test(password);
   }
 
