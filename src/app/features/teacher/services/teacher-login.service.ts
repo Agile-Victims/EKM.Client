@@ -13,6 +13,6 @@ export class TeacherLoginService {
   constructor(private http: HttpClient) {}
 
   login(loginRequest: LoginRequest): Observable<any> {
-    return this.http.post<any>(`${apiUrl}/${this.apiName}/login`, loginRequest);
+    return this.http.post<any>(`${apiUrl}/auth/login/${this.apiName}`, loginRequest);
   }
 }
