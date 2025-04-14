@@ -36,6 +36,10 @@
       </div>
       <button type="submit" [disabled]="!loginForm.valid">Giriş Yap</button>
     </form>
+    <!-- Registration prompt -->
+    <div class="register-prompt" *ngIf="theme !== 'admin'">
+      Hesabınız yok mu? <a [routerLink]="registerLink">Kayıt olun</a>
+    </div>
   </div>
 </div>
 

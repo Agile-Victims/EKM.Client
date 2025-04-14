@@ -1,17 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   @Input() title: string = 'Login';
   @Input() theme: 'student' | 'teacher' | 'admin' = 'student';
+  @Input() registerLink: string = '/student/register';
   @Output() onLogin: EventEmitter<{ email: string; password: string }> =
     new EventEmitter<{ email: string; password: string }>();
 
