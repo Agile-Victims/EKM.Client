@@ -1,8 +1,8 @@
 .page-content {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Added to center vertically */
-    align-items: center;     /* Centers horizontally */
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: auto;
 }
@@ -10,6 +10,6 @@
 .admin-login-page {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Added to center vertically */
-    align-items: center;     /* Centers horizontally */
+    justify-content: center;
+    align-items: center;
 }
