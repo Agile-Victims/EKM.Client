@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { LoginComponent } from '../../../../shared/components/login/login.component';
 import { LoginRequest } from '../../../../shared/models/LoginRequest';
 import { catchError, tap, throwError } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class TeacherLoginPageComponent {
     handleLogin(credentials: { email: string, password: string }): void {
       const loginRequest = new LoginRequest(credentials.email, credentials.password);
   
-      this.authService.login(loginRequest).pipe(
+      this.authService.login(loginRequest, 'teacher').pipe(
         tap(response => {
           window.alert(`Giriş başarılı`);
           console.log(response);

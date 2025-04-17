@@ -8,11 +8,11 @@ import { apiUrl } from '../../../shared/models/ApiUrl';
   providedIn: 'root'
 })
 export class AuthService {
-  apiName = 'admin';
+  apiName = 'auth';
 
   constructor(private http: HttpClient) {}
 
-  login(loginRequest: LoginRequest): Observable<any> {
-    return this.http.post<any>(`${apiUrl}/auth/login/${this.apiName}`, loginRequest);
+  login(loginRequest: LoginRequest, type: string): Observable<any> {
+    return this.http.post<any>(`${apiUrl}/${this.apiName}/login/${type}`, loginRequest);
   }
 }
