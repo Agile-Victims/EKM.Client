@@ -7,7 +7,7 @@ import { RegisterRequest } from '../../../shared/models/RegisterRequest';
 @Injectable({
   providedIn: 'root'
 })
-export class Studentervice {
+export class StudentService {
   apiName = 'student';
 
   constructor(private http: HttpClient) {}

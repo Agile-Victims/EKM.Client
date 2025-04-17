@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginRequest } from '../../../shared/models/LoginRequest';
+import { LoginRequest } from '../../shared/models/LoginRequest';
 import { Observable } from 'rxjs';
-import { apiUrl } from '../../../shared/models/ApiUrl';
+import { apiUrl } from '../../shared/models/ApiUrl';
 
 @Injectable({
   providedIn: 'root'
