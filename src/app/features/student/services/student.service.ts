@@ -13,6 +13,6 @@ export class StudentService {
   constructor(private http: HttpClient) {}
 
   register(registerRequest: RegisterRequest): Observable<any> {
-    return this.http.post<any>(`${apiUrl}/${this.apiName}/register/`, registerRequest);
+    return this.http.post<any>(`${apiUrl}/${this.apiName}/signup/`, registerRequest);
   }
 }

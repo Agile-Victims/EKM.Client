@@ -1,6 +1,7 @@
 export class RegisterRequest {
     constructor(
-        public nameSurname: string,
+        public name: string,
+        public surname: string,
         public email: string,
         public password: string
     ) {}
