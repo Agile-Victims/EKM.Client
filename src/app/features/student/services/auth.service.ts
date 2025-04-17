@@ -7,10 +7,10 @@ import { apiUrl } from '../../../shared/models/ApiUrl';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentLoginService {
-  apiName = "student";
+export class AuthService {
+  apiName = 'student';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(loginRequest: LoginRequest): Observable<any> {
     return this.http.post<any>(`${apiUrl}/auth/login/${this.apiName}`, loginRequest);

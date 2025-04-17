@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { LoginComponent } from '../../../../shared/components/login/login.component';
-import { StudentLoginService } from '../../services/student-login.service';
 import { LoginRequest } from '../../../../shared/models/LoginRequest';
 import { catchError, tap, throwError } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-student-login-page',
@@ -13,12 +13,12 @@ import { catchError, tap, throwError } from 'rxjs';
 })
 export class StudentLoginPageComponent {
 
-  constructor(private loginService: StudentLoginService){}
+  constructor(private authService: AuthService){}
 
   handleLogin(credentials: { email: string, password: string }): void {
     const loginRequest = new LoginRequest(credentials.email, credentials.password);
 
-      this.loginService.login(loginRequest).pipe(
+      this.authService.login(loginRequest).pipe(
         tap(response => {
           window.alert(`Giriş başarılı`);
           console.log(response);
