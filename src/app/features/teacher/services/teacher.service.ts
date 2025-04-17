@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginRequest } from '../../../shared/models/LoginRequest';
 import { Observable } from 'rxjs';
 import { apiUrl } from '../../../shared/models/ApiUrl';
+import { RegisterRequest } from '../../../shared/models/RegisterRequest';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class TeacherLoginService {
+export class TeacherService {
   apiName = 'teacher';
 
   constructor(private http: HttpClient) {}
 
-  login(loginRequest: LoginRequest): Observable<any> {
-    return this.http.post<any>(`${apiUrl}/auth/login/${this.apiName}`, loginRequest);
+  register(registerRequest: RegisterRequest): Observable<any> {
+    return this.http.post<any>(`${apiUrl}/${this.apiName}/register/`, registerRequest);
   }
 }

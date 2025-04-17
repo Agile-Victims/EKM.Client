@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { LoginComponent } from '../../../../shared/components/login/login.component';
-import { AdminLoginService } from '../../services/admin-login.service';
 import { LoginRequest } from '../../../../shared/models/LoginRequest';
 import { catchError, tap, throwError } from 'rxjs';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 
 @Component({
@@ -14,12 +14,12 @@ import { catchError, tap, throwError } from 'rxjs';
 })
 export class AdminLoginPageComponent {
 
-  constructor(private loginService: AdminLoginService){}
+  constructor(private authService: AuthService){}
 
   handleLogin(credentials: { email: string, password: string }): void {
     const loginRequest = new LoginRequest(credentials.email, credentials.password);
 
-      this.loginService.login(loginRequest).pipe(
+      this.authService.login(loginRequest, 'admin').pipe(
         tap(response => {
           window.alert(`Giriş başarılı`);
           console.log(response);
