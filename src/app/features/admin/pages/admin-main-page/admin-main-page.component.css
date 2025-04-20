@@ -1,0 +1,21 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20rem;
+    gap: 1rem;
+}
+.buttons-container button {
+    width: 25rem;
+    height: 4rem;
+}
+.buttons-container button:hover {
+    background-color: antiquewhite;
+}
