@@ -1,21 +1,35 @@
+@use '@angular/material' as mat;
 .page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 2rem;
+    gap: 4rem;
 }
 
 .buttons-container {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20rem;
     gap: 1rem;
 }
+
 .buttons-container button {
     width: 25rem;
     height: 4rem;
+    color: black;
+    font-size: 1.3rem;
+    background-color: white;
 }
-.buttons-container button:hover {
-    background-color: antiquewhite;
-}
+
+h1 {
+    background: linear-gradient(to right, #4a90e2, #007aff);
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  
