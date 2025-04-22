@@ -13,3 +13,29 @@ html, body {
     min-height: 86vh;
 }
 
+.approval-btn{
+    background-color: green;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+  
+.approval-btn:hover {
+    background-color: #7ad66e;
+}
+
+.approval-btn:disabled, .update-btn:disabled {
+    background-color: #c1c1c1;
+    color: #8e8e8e;
+    cursor: not-allowed;
+    transition: none;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+}
