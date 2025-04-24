@@ -1,46 +1,78 @@
+import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ExamsService } from '../../services/exams.service';
 import { Exam } from '../../../../shared/models/Exam';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-exams-page',
+  standalone: true,
   imports: [NgFor, NgIf, ReactiveFormsModule],
   templateUrl: './exams-page.component.html',
-  styleUrl: './exams-page.component.css'
+  styleUrls: ['./exams-page.component.css']
 })
-export class ExamsPageComponent {
-  exams: Exam[] = [
-    new Exam(1, 'TYT 2025', 40, 40, 20, 15, 10, 5, true),
-    new Exam(2, 'AYT 2025', 0, 50, 50, 30, 0, 0, false),
-    new Exam(3, 'LGS Deneme 1', 20, 20, 20, 10, 5, 10, true),
-    new Exam(4, 'KPSS Genel Yetenek', 30, 30, 0, 25, 10, 5, false)
-  ];
+export class ExamsPageComponent implements OnInit {
+  exams: Exam[] = [];
   addExamForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private examSvc: ExamsService
+  ) {
     this.addExamForm = this.fb.group({
-      examName: ['', [Validators.required]],
-      turkishQuestionCount: ['', [Validators.required]],
-      mathQuestionCount: ['', [Validators.required]],
-      scienceQuestionCount: ['', [Validators.required]],
-      historyQuestionCount: ['', [Validators.required]],
-      relegionQuestionCount: ['', [Validators.required]],
-      foreignLanguageQuestionCount: ['', [Validators.required]],
+      examName:             ['', [Validators.required]],
+      turkishQuestionCount: [0,  [Validators.required, Validators.min(0)]],
+      mathQuestionCount:    [0,  [Validators.required, Validators.min(0)]],
+      scienceQuestionCount:[0,  [Validators.required, Validators.min(0)]],
+      historyQuestionCount: [0,  [Validators.required, Validators.min(0)]],
+      relegionQuestionCount:[0,  [Validators.required, Validators.min(0)]],
+      foreignLanguageQuestionCount: [0, [Validators.required, Validators.min(0)]],
     });
   }
 
-  onClose(id: number) {
+  ngOnInit(): void {
+    this.loadExams();
+  }
+
+  private loadExams(): void {
+    this.examSvc.getExams().subscribe({
+      next: exams => this.exams = exams,
+      error: err => console.error('Failed to load exams', err)
+    });
+  }
+
+  onClose(id: number): void {
     const exam = this.exams.find(e => e.id === id);
     if (exam) {
       exam.isActive = false;
-      console.log(`Close clicked for exam with ID: ${id}`);
+      console.log(`Closed exam ID ${id}`);
     }
   }
 
-  onSubmit(){
-    if(this.addExamForm.valid){
-      console.log(this.addExamForm.value)
-    }
+  onSubmit(): void {
+    if (!this.addExamForm.valid) return;
+
+    const payload: Partial<Exam> = {
+      ...this.addExamForm.value,
+      isActive: true
+    };
+
+    this.examSvc.addExam(payload).subscribe({
+      next: newExam => {
+        this.exams.push(new Exam(
+          newExam.id,
+          newExam.examName,
+          newExam.turkishQuestionCount,
+          newExam.mathQuestionCount,
+          newExam.scienceQuestionCount,
+          newExam.historyQuestionCount,
+          newExam.relegionQuestionCount,
+          newExam.foreignLanguageQuestionCount,
+          newExam.isActive
+        ));
+        this.addExamForm.reset();
+      },
+      error: err => console.error('Failed to add exam', err)
+    });
   }
 }
