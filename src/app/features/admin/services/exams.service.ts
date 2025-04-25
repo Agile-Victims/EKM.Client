@@ -16,7 +16,7 @@ export class ExamsService {
     return this.http.get<Exam[]>(`${apiUrl}/${this.apiName}`);
   }
 
-  addExam(exam: Partial<Exam>): Observable<Exam> {
+  addExam(exam: Exam): Observable<Exam> {
     return this.http.post<Exam>(`${apiUrl}/${this.apiName}`, exam);
   }
 }
