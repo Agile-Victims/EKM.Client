@@ -52,12 +52,7 @@ export class ExamsPageComponent implements OnInit {
   onSubmit(): void {
     if (!this.addExamForm.valid) return;
 
-    const payload: Partial<Exam> = {
-      ...this.addExamForm.value,
-      isActive: true
-    };
-
-    this.examSvc.addExam(payload).subscribe({
+    this.examSvc.addExam(this.addExamForm.value).subscribe({
       next: newExam => {
         this.exams.push(new Exam(
           newExam.id,

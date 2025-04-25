@@ -3,6 +3,7 @@ import { LoginComponent } from '../../../../shared/components/login/login.compon
 import { LoginRequest } from '../../../../shared/models/LoginRequest';
 import { catchError, tap, throwError } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,15 +15,14 @@ import { AuthService } from '../../../../shared/services/auth.service';
 })
 export class AdminLoginPageComponent {
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService, private router: Router){}
 
   handleLogin(credentials: { email: string, password: string }): void {
     const loginRequest = new LoginRequest(credentials.email, credentials.password);
 
       this.authService.login(loginRequest, 'admin').pipe(
         tap(response => {
-          window.alert(`Giriş başarılı`);
-          console.log(response);
+          this.router.navigate(['/admin']);
         }),
         catchError(error => {
           window.alert(`Giriş başarısız`);
