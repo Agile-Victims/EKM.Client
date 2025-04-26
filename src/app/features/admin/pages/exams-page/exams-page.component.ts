@@ -44,7 +44,7 @@ export class ExamsPageComponent implements OnInit {
   onClose(id: number): void {
     const exam = this.exams.find(e => e.id === id);
     if (exam) {
-      exam.isActive = false;
+      exam.active = false;
       console.log(`Closed exam ID ${id}`);
     }
   }
@@ -63,7 +63,7 @@ export class ExamsPageComponent implements OnInit {
           newExam.historyQuestionCount,
           newExam.relegionQuestionCount,
           newExam.foreignLanguageQuestionCount,
-          newExam.isActive
+          newExam.active
         ));
         this.addExamForm.reset();
       },

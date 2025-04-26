@@ -8,6 +8,6 @@ export class Exam {
       public historyQuestionCount: number,
       public relegionQuestionCount: number,
       public foreignLanguageQuestionCount: number,
-      public isActive: boolean
+      public active: boolean
     ) {}
 }

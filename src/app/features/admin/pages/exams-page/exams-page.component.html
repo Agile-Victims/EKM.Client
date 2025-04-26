@@ -50,7 +50,7 @@
         </div>
         <div class="one-third-field-container">
             <label for="foreignLanguageQuestionCount">Yabancı Dil:</label>
-            <input type="number" id="mathQuestionCount" formControlName="foreignLanguageQuestionCount"/>
+            <input type="number" id="foreignLanguageQuestionCount" formControlName="foreignLanguageQuestionCount"/>
             <div class="error-message" *ngIf="addExamForm.get('foreignLanguageQuestionCount')?.touched && addExamForm.get('foreignLanguageQuestionCount')?.invalid">
                 <span *ngIf="addExamForm.get('foreignLanguageQuestionCount')?.errors?.['required']">Bu alan zorunlu</span>
             </div>
@@ -89,14 +89,16 @@
             <td>{{exam.historyQuestionCount}}</td>
             <td>{{exam.relegionQuestionCount}}</td>
             <td>{{exam.foreignLanguageQuestionCount}}</td>
-            <td *ngIf="exam.isActive">
-                <input 
-                    type="checkbox" 
-                    [checked]="exam.isActive" 
-                    (change)="onClose(exam.id)" />
-            </td>
-            <td *ngIf="!exam.isActive">
-                Tamamlanmış
+            <td>
+                <ng-container *ngIf="exam.active; else completed">
+                    <input 
+                        type="checkbox" 
+                        [checked]="exam.active" 
+                        (change)="onClose(exam.id)" />
+                </ng-container>
+                <ng-template #completed>
+                    Tamamlanmış
+                </ng-template>
             </td>
         </tr>
     </tbody>
