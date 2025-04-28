@@ -44,8 +44,12 @@ export class ExamsPageComponent implements OnInit {
   onClose(id: number): void {
     const exam = this.exams.find(e => e.id === id);
     if (exam) {
-      exam.active = false;
-      console.log(`Closed exam ID ${id}`);
+      this.examSvc.deactivateExam(id).subscribe({
+        next: updatedExam => {
+          exam.active = false;
+        },
+        error: err => console.error('Failed to deactivate exam', err)
+      });
     }
   }
 
