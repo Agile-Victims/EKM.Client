@@ -19,4 +19,8 @@ export class ExamsService {
   addExam(exam: Exam): Observable<Exam> {
     return this.http.post<Exam>(`${apiUrl}/${this.apiName}`, exam);
   }
+
+  deactivateExam(examId: number): Observable<Exam> {
+    return this.http.put<Exam>(`${apiUrl}/${this.apiName}/${examId}`, {});
+  }
 }
