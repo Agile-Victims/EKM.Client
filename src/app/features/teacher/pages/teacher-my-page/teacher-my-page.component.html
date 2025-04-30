@@ -1,0 +1,32 @@
+<div class="login-form-container teacher container">
+  <!-- Profil Kartı -->
+  <section class="profile-card">
+    <h2>Merhaba, {{ profile?.firstName }} {{ profile?.lastName }}!</h2>
+    <p>{{ profile?.email }}</p>
+  </section>
+
+  <!-- Dersler Bölümü -->
+  <section class="lessons-section">
+    <h3>Verdiğiniz Dersler</h3>
+    <ul *ngIf="selectedLessons.length; else noneTpl" class="current-lessons">
+      <li *ngFor="let l of selectedLessons">{{ l }}</li>
+    </ul>
+    <ng-template #noneTpl>
+      <p class="no-lessons">Henüz ders seçimi yapılmamış.</p>
+    </ng-template>
+
+    <form class="lessons-form">
+      <div class="checkbox-grid">
+        <label *ngFor="let lesson of lessonsList">
+          <input
+            type="checkbox"
+            [checked]="isSelected(lesson)"
+            (change)="onCheckboxChange($event, lesson)"
+          />
+          {{ lesson }}
+        </label>
+      </div>
+      <button type="button" class="save-btn" (click)="save()">Kaydet</button>
+    </form>
+  </section>
+</div>
