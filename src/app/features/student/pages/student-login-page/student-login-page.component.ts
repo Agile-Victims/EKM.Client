@@ -20,6 +20,8 @@ export class StudentLoginPageComponent {
 
       this.authService.login(loginRequest, 'student').pipe(
         tap(response => {
+          this.authService.setEmail(loginRequest.email);
+          // this.router.navigate(['/admin']);
           window.alert(`Giriş başarılı`);
           console.log(response);
         }),

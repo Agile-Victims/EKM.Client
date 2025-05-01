@@ -22,6 +22,7 @@ export class AdminLoginPageComponent {
 
       this.authService.login(loginRequest, 'admin').pipe(
         tap(response => {
+          this.authService.setEmail(loginRequest.email);
           this.router.navigate(['/admin']);
         }),
         catchError(error => {
