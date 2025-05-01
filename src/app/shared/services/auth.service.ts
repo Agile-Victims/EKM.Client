@@ -15,4 +15,17 @@ export class AuthService {
   login(loginRequest: LoginRequest, type: string): Observable<any> {
     return this.http.post<any>(`${apiUrl}/${this.apiName}/login/${type}`, loginRequest);
   }
+
+  setEmail(email: string){
+    localStorage.setItem('email', email);
+  }
+
+  getEmail(): string{
+    const email = localStorage.getItem('email');
+    if(email){
+      return email;
+    }
+
+    return "";
+  }
 }

@@ -3,6 +3,7 @@ import { LoginComponent } from '../../../../shared/components/login/login.compon
 import { LoginRequest } from '../../../../shared/models/LoginRequest';
 import { catchError, tap, throwError } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,15 +14,15 @@ import { AuthService } from '../../../../shared/services/auth.service';
   styleUrls: ['./teacher-login-page.component.css']
 })
 export class TeacherLoginPageComponent {
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService, private router: Router){}
   
     handleLogin(credentials: { email: string, password: string }): void {
       const loginRequest = new LoginRequest(credentials.email, credentials.password);
   
       this.authService.login(loginRequest, 'teacher').pipe(
         tap(response => {
-          window.alert(`Giriş başarılı`);
-          console.log(response);
+          this.authService.setEmail(loginRequest.email);
+          this.router.navigate(['/teacher/my-page']);
         }),
         catchError(error => {
           window.alert(`Giriş başarısız`);

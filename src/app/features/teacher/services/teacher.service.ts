@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { apiUrl } from '../../../shared/models/ApiUrl';
 import { RegisterRequest } from '../../../shared/models/RegisterRequest';
+import { AuthService } from '../../../shared/services/auth.service';
+import { SetClassesRequest } from '../../../shared/models/SetClassesRequest';
 
 export interface TeacherProfile {
   firstName: string;
   lastName: string;
   email: string;
+  classes: string
 }
 
 @Injectable({
@@ -16,7 +19,7 @@ export interface TeacherProfile {
 export class TeacherService {
   private apiName = 'teacher';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   register(registerRequest: RegisterRequest): Observable<any> {
     return this.http.post<any>(
@@ -25,35 +28,13 @@ export class TeacherService {
     );
   }
 
-  getMyLessons(): Observable<string[]> {
-    return of(['Matematik']);
-    // Gerçek API geldiğinde:
-    // return this.http.get<string[]>(
-    //   `${apiUrl}/${this.apiName}/lessons`
-    // );
-  }
-
-  updateMyLessons(lessons: string[]): Observable<any> {
-    console.log('Backend’e gidecek payload:', lessons);
-    return of({ success: true });
-    // Gerçek API geldiğinde:
-    // return this.http.put<any>(
-    //   `${apiUrl}/${this.apiName}/lessons`,
-    //   { lessons }
-    // );
+  updateMyLessons(lessons: string): Observable<any> {
+    const setClassesRequest: SetClassesRequest = new SetClassesRequest(this.authService.getEmail(), lessons);
+    console.log(setClassesRequest)
+    return this.http.put<any>(`${apiUrl}/${this.apiName}/set-classes`, { setClassesRequest });
   }
 
   getProfile(): Observable<TeacherProfile> {
-    // Demo verisi:
-    return of({
-      firstName: 'Ayşe',
-      lastName:  'Öztürk',
-      email:     'ayse.ozturk@example.com'
-    });
-
-    // Gerçek API geldiğinde:
-    // return this.http.get<TeacherProfile>(
-    //   `${apiUrl}/${this.apiName}/profile`
-    // );
+    return this.http.get<TeacherProfile>(`${apiUrl}/${this.apiName}/get-my-info/${this.authService.getEmail()}`);
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TeacherService, TeacherProfile } from '../../services/teacher.service';
+import { catchError, tap, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-teacher-my-page',
@@ -10,7 +11,7 @@ import { TeacherService, TeacherProfile } from '../../services/teacher.service';
   templateUrl: './teacher-my-page.component.html',
   styleUrls: ['./teacher-my-page.component.css'],
 })
-export class TeacherMyPageComponent implements OnInit {
+export class TeacherMyPageComponent{
   profile: TeacherProfile | null = null;
 
   lessonsList = [
@@ -23,13 +24,20 @@ export class TeacherMyPageComponent implements OnInit {
   ];
   selectedLessons: string[] = [];
 
-  constructor(private teacherService: TeacherService) {}
-
-  ngOnInit(): void {
-    this.teacherService.getProfile().subscribe((p) => (this.profile = p));
-    this.teacherService
-      .getMyLessons()
-      .subscribe((ls) => (this.selectedLessons = ls));
+  constructor(private teacherService: TeacherService) {
+    this.teacherService.getProfile().pipe(
+      tap(response => {
+        this.profile = response
+        var lessons = this.profile?.classes.split('/');
+        if(lessons){
+          this.selectedLessons = lessons;
+        }
+      }),
+      catchError(error => {
+        window.alert(`Bilgi getirilemedi`);
+        return throwError(() => error);
+      })
+    ).subscribe();
   }
 
   isSelected(lesson: string): boolean {
@@ -46,8 +54,9 @@ export class TeacherMyPageComponent implements OnInit {
   }
 
   save() {
+    const classes = this.selectedLessons.join('/');
     this.teacherService
-      .updateMyLessons(this.selectedLessons)
+      .updateMyLessons(classes)
       .subscribe((res) => {
         if (res.success) {
           alert('Ders seçiminiz kaydedildi.');
