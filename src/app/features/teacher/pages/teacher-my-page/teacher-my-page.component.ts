@@ -28,9 +28,11 @@ export class TeacherMyPageComponent{
     this.teacherService.getProfile().pipe(
       tap(response => {
         this.profile = response
-        var lessons = this.profile?.classes.split('/');
-        if(lessons){
-          this.selectedLessons = lessons;
+        if(this.profile.classes){
+          var lessons = this.profile?.classes.split('/');
+          if(lessons){
+            this.selectedLessons = lessons;
+          }
         }
       }),
       catchError(error => {
@@ -55,12 +57,16 @@ export class TeacherMyPageComponent{
 
   save() {
     const classes = this.selectedLessons.join('/');
-    this.teacherService
-      .updateMyLessons(classes)
-      .subscribe((res) => {
-        if (res.success) {
+    this.teacherService.updateMyLessons(classes).pipe(
+      tap(response => {
+        if (response.success) {
           alert('Ders seçiminiz kaydedildi.');
         }
-      });
+      }),
+      catchError(error => {
+        window.alert(`Ders seçiminiz kaydedilemedi`);
+        return throwError(() => error);
+      })
+    ).subscribe();
   }
 }
