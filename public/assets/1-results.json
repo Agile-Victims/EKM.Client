@@ -1,0 +1,6 @@
+[
+    { "studentId": 1, "studentName": "Ali Veli",     "score": 85, "completed": true  },
+    { "studentId": 2, "studentName": "Ayşe Yılmaz",  "score": 72, "completed": true  },
+    { "studentId": 3, "studentName": "Mehmet Öz",    "score":  0, "completed": false }
+  ]
+  
