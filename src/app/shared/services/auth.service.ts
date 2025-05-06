@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginRequest } from '../../shared/models/LoginRequest';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { apiUrl } from '../../shared/models/ApiUrl';
 
 @Injectable({
@@ -9,6 +9,8 @@ import { apiUrl } from '../../shared/models/ApiUrl';
 })
 export class AuthService {
   apiName = 'auth';
+  private loggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  loggedIn$ = this.loggedInSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -18,6 +20,16 @@ export class AuthService {
 
   setEmail(email: string){
     localStorage.setItem('email', email);
+    this.loggedInSubject.next(true);
+  }
+
+  isLoggedIn(): boolean {
+    return localStorage.getItem('email') !== null;
+  }
+
+  logout(){
+    localStorage.removeItem('email');
+    this.loggedInSubject.next(false);
   }
 
   getEmail(): string{

@@ -5,7 +5,15 @@
     <div class="title">
         Etüt ve Kurs Merkezi
     </div>
-    <div class="user-img">
-        <img ngSrc="/assets/user-logo.png" alt="userBtn" height="40" width="40" priority>
-    </div>  
+    <div class="user-profile">
+        <button class="profile-button" (click)="toggleDropdown()" *ngIf="isLoggedIn">
+            <img src="assets/user.png" alt="User Profile" class="profile-img">
+        </button>
+        <div *ngIf="isDropdownVisible" class="dropdown-menu">
+            <button (click)="onLogout()">
+                <img src="assets/logout.png" alt="Logout" class="logout-img">
+                Çıkış Yap
+            </button>
+        </div>
+    </div> 
 </div>
