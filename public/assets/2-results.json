@@ -1,0 +1,6 @@
+[
+    { "studentId": 4, "studentName": "Fatma Demir",  "score": 90, "completed": true  },
+    { "studentId": 5, "studentName": "Can Kaya",     "score": 60, "completed": true  },
+    { "studentId": 6, "studentName": "Deniz Şahin",  "score":  0, "completed": false }
+  ]
+  

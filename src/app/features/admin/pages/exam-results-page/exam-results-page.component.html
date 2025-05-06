@@ -1,0 +1,36 @@
+<div class="results-card">
+    <a class="back-btn" routerLink="/admin/exams">← Geri</a>
+  
+    <h2>Deneme #{{ examId }} Sonuçları</h2>
+  
+    <div *ngIf="isLoading" class="loading">Yükleniyor…</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  
+    <table *ngIf="!isLoading && !errorMessage" class="table">
+      <thead>
+        <tr>
+          <th>Öğrenci ID</th>
+          <th>Ad Soyad</th>
+          <th>Puan</th>
+          <th>Durum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of results">
+          <td>{{ r.studentId }}</td>
+          <td>{{ r.studentName }}</td>
+          <td>{{ r.score }}</td>
+          <td>
+            <span [class.completed]="r.completed"
+                  [class.pending]="!r.completed">
+              {{ r.completed ? 'Tamamlandı' : 'Tamamlanmadı' }}
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="results.length === 0">
+          <td colspan="4" class="no-data">Hiç sonuç yok.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
