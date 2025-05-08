@@ -42,7 +42,7 @@ export class ExamComplitionPageComponent implements OnInit{
       }),
       catchError(error => {
         window.alert(`Deneme bulunamadı`);
-        this.router.navigate(['/student']);
+        this.router.navigate(['/student/exams']);
         return throwError(() => error);
       })
     ).subscribe();
