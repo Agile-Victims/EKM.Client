@@ -3,6 +3,7 @@ import { LoginComponent } from '../../../../shared/components/login/login.compon
 import { LoginRequest } from '../../../../shared/models/LoginRequest';
 import { catchError, tap, throwError } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-login-page',
@@ -13,7 +14,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 })
 export class StudentLoginPageComponent {
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService, private router: Router){}
 
   handleLogin(credentials: { email: string, password: string }): void {
     const loginRequest = new LoginRequest(credentials.email, credentials.password);
@@ -21,7 +22,7 @@ export class StudentLoginPageComponent {
       this.authService.login(loginRequest, 'student').pipe(
         tap(response => {
           this.authService.setEmail(loginRequest.email);
-          // this.router.navigate(['/student']);
+          this.router.navigate(['/student/exams']);
           window.alert(`Giriş başarılı`);
           console.log(response);
         }),
