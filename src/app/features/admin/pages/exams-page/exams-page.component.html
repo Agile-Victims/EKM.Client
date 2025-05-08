@@ -1,105 +1,194 @@
 <form [formGroup]="addExamForm" (ngSubmit)="onSubmit()">
-    <div class="title-container">
-        Deneme Ekle
+  <div class="title-container">Deneme Ekle</div>
+  <div class="fields-container">
+    <div class="quarter-field-container">
+      <label for="examName">Deneme Adı:</label>
+      <input type="text" id="examName" formControlName="examName" />
+      <div
+        class="error-message"
+        *ngIf="
+          addExamForm.get('examName')?.touched &&
+          addExamForm.get('examName')?.invalid
+        "
+      >
+        <span *ngIf="addExamForm.get('examName')?.errors?.['required']"
+          >Bu alan zorunlu</span
+        >
+      </div>
     </div>
-    <div class="fields-container">
-        <div class="quarter-field-container">
-            <label for="examName">Deneme Adı:</label>
-            <input type="text" id="examName" formControlName="examName"/>
-            <div class="error-message" *ngIf="addExamForm.get('examName')?.touched && addExamForm.get('examName')?.invalid">
-                <span *ngIf="addExamForm.get('examName')?.errors?.['required']">Bu alan zorunlu</span>
-            </div>
-        </div>
-        <div class="quarter-field-container">
-            <label for="turkishQuestionCount">Türkçe:</label>
-            <input type="number" id="turkishQuestionCount" formControlName="turkishQuestionCount"/>
-            <div class="error-message" *ngIf="addExamForm.get('turkishQuestionCount')?.touched && addExamForm.get('turkishQuestionCount')?.invalid">
-                <span *ngIf="addExamForm.get('turkishQuestionCount')?.errors?.['required']">Bu alan zorunlu</span>
-            </div>
-        </div>
-        <div class="quarter-field-container">
-            <label for="mathQuestionCount">Matematik:</label>
-            <input type="number" id="mathQuestionCount" formControlName="mathQuestionCount"/>
-            <div class="error-message" *ngIf="addExamForm.get('mathQuestionCount')?.touched && addExamForm.get('mathQuestionCount')?.invalid">
-                <span *ngIf="addExamForm.get('mathQuestionCount')?.errors?.['required']">Bu alan zorunlu</span>
-            </div>
-        </div>
-        <div class="quarter-field-container">
-            <label for="scienceQuestionCount">Fen Bilimleri:</label>
-            <input type="number" id="scienceQuestionCount" formControlName="scienceQuestionCount"/>
-            <div class="error-message" *ngIf="addExamForm.get('scienceQuestionCount')?.touched && addExamForm.get('scienceQuestionCount')?.invalid">
-                <span *ngIf="addExamForm.get('scienceQuestionCount')?.errors?.['required']">Bu alan zorunlu</span>
-            </div>
-        </div>
+    <div class="quarter-field-container">
+      <label for="turkishQuestionCount">Türkçe:</label>
+      <input
+        type="number"
+        id="turkishQuestionCount"
+        formControlName="turkishQuestionCount"
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          addExamForm.get('turkishQuestionCount')?.touched &&
+          addExamForm.get('turkishQuestionCount')?.invalid
+        "
+      >
+        <span
+          *ngIf="addExamForm.get('turkishQuestionCount')?.errors?.['required']"
+          >Bu alan zorunlu</span
+        >
+      </div>
     </div>
+    <div class="quarter-field-container">
+      <label for="mathQuestionCount">Matematik:</label>
+      <input
+        type="number"
+        id="mathQuestionCount"
+        formControlName="mathQuestionCount"
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          addExamForm.get('mathQuestionCount')?.touched &&
+          addExamForm.get('mathQuestionCount')?.invalid
+        "
+      >
+        <span *ngIf="addExamForm.get('mathQuestionCount')?.errors?.['required']"
+          >Bu alan zorunlu</span
+        >
+      </div>
+    </div>
+    <div class="quarter-field-container">
+      <label for="scienceQuestionCount">Fen Bilimleri:</label>
+      <input
+        type="number"
+        id="scienceQuestionCount"
+        formControlName="scienceQuestionCount"
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          addExamForm.get('scienceQuestionCount')?.touched &&
+          addExamForm.get('scienceQuestionCount')?.invalid
+        "
+      >
+        <span
+          *ngIf="addExamForm.get('scienceQuestionCount')?.errors?.['required']"
+          >Bu alan zorunlu</span
+        >
+      </div>
+    </div>
+  </div>
 
-    <div class="fields-container">
-        <div class="one-third-field-container">
-            <label for="historyQuestionCount">T.C. İnkilap Tarihi ve Atatürkçülük:</label>
-            <input type="number" id="historyQuestionCount" formControlName="historyQuestionCount"/>
-            <div class="error-message" *ngIf="addExamForm.get('historyQuestionCount')?.touched && addExamForm.get('historyQuestionCount')?.invalid">
-                <span *ngIf="addExamForm.get('historyQuestionCount')?.errors?.['required']">Bu alan zorunlu</span>
-            </div>
-        </div>
-        <div class="one-third-field-container">
-            <label for="relegionQuestionCount">Din Kültürü ve Ahlak Bilgisi</label>
-            <input type="number" id="relegionQuestionCount" formControlName="relegionQuestionCount"/>
-            <div class="error-message" *ngIf="addExamForm.get('relegionQuestionCount')?.touched && addExamForm.get('relegionQuestionCount')?.invalid">
-                <span *ngIf="addExamForm.get('relegionQuestionCount')?.errors?.['required']">Bu alan zorunlu</span>
-            </div>
-        </div>
-        <div class="one-third-field-container">
-            <label for="foreignLanguageQuestionCount">Yabancı Dil:</label>
-            <input type="number" id="foreignLanguageQuestionCount" formControlName="foreignLanguageQuestionCount"/>
-            <div class="error-message" *ngIf="addExamForm.get('foreignLanguageQuestionCount')?.touched && addExamForm.get('foreignLanguageQuestionCount')?.invalid">
-                <span *ngIf="addExamForm.get('foreignLanguageQuestionCount')?.errors?.['required']">Bu alan zorunlu</span>
-            </div>
-        </div>
+  <div class="fields-container">
+    <div class="one-third-field-container">
+      <label for="historyQuestionCount"
+        >T.C. İnkilap Tarihi ve Atatürkçülük:</label
+      >
+      <input
+        type="number"
+        id="historyQuestionCount"
+        formControlName="historyQuestionCount"
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          addExamForm.get('historyQuestionCount')?.touched &&
+          addExamForm.get('historyQuestionCount')?.invalid
+        "
+      >
+        <span
+          *ngIf="addExamForm.get('historyQuestionCount')?.errors?.['required']"
+          >Bu alan zorunlu</span
+        >
+      </div>
     </div>
+    <div class="one-third-field-container">
+      <label for="relegionQuestionCount">Din Kültürü ve Ahlak Bilgisi</label>
+      <input
+        type="number"
+        id="relegionQuestionCount"
+        formControlName="relegionQuestionCount"
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          addExamForm.get('relegionQuestionCount')?.touched &&
+          addExamForm.get('relegionQuestionCount')?.invalid
+        "
+      >
+        <span
+          *ngIf="addExamForm.get('relegionQuestionCount')?.errors?.['required']"
+          >Bu alan zorunlu</span
+        >
+      </div>
+    </div>
+    <div class="one-third-field-container">
+      <label for="foreignLanguageQuestionCount">Yabancı Dil:</label>
+      <input
+        type="number"
+        id="foreignLanguageQuestionCount"
+        formControlName="foreignLanguageQuestionCount"
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          addExamForm.get('foreignLanguageQuestionCount')?.touched &&
+          addExamForm.get('foreignLanguageQuestionCount')?.invalid
+        "
+      >
+        <span
+          *ngIf="addExamForm.get('foreignLanguageQuestionCount')?.errors?.['required']"
+          >Bu alan zorunlu</span
+        >
+      </div>
+    </div>
+  </div>
 
-    <div class="send-btn">
-        <button class="approval-btn" type="submit" [disabled]="addExamForm.invalid">Ekle</button>
-    </div>
+  <div class="send-btn">
+    <button class="approval-btn" type="submit" [disabled]="addExamForm.invalid">
+      Ekle
+    </button>
+  </div>
 </form>
 
-
-
-
 <table class="table">
-    <thead>
+  <thead>
     <tr>
-        <th>ID</th>
-        <th>Deneme</th>
-        <th>Türkçe</th>
-        <th>Matematik</th>
-        <th>Fen Bilimleri</th>
-        <th>T.C. İnkilap Tarihi ve Atatürkçülük</th>
-        <th>Din Kültürü ve Ahlak Bilgisi</th>
-        <th>Yabancı Dil</th>
-        <th>Aktif</th>
+      <th>ID</th>
+      <th>Deneme</th>
+      <th>Türkçe</th>
+      <th>Matematik</th>
+      <th>Fen Bilimleri</th>
+      <th>T.C. İnkilap Tarihi ve Atatürkçülük</th>
+      <th>Din Kültürü ve Ahlak Bilgisi</th>
+      <th>Yabancı Dil</th>
+      <th>Aktif</th>
+      <th>Sonuçlar</th>
     </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let exam of exams">
-            <td>{{exam.id}}</td>
-            <td>{{exam.examName}}</td>
-            <td>{{exam.turkishQuestionCount}}</td>
-            <td>{{exam.mathQuestionCount}}</td>
-            <td>{{exam.scienceQuestionCount}}</td>
-            <td>{{exam.historyQuestionCount}}</td>
-            <td>{{exam.relegionQuestionCount}}</td>
-            <td>{{exam.foreignLanguageQuestionCount}}</td>
-            <td>
-                <ng-container *ngIf="exam.active; else completed">
-                    <input 
-                        type="checkbox" 
-                        [checked]="exam.active" 
-                        (change)="onClose(exam.id)" />
-                </ng-container>
-                <ng-template #completed>
-                    Tamamlanmış
-                </ng-template>
-            </td>
-        </tr>
-    </tbody>
+  </thead>
+  <tbody>
+    <tr *ngFor="let exam of exams">
+      <td>{{ exam.id }}</td>
+      <td>{{ exam.examName }}</td>
+      <td>{{ exam.turkishQuestionCount }}</td>
+      <td>{{ exam.mathQuestionCount }}</td>
+      <td>{{ exam.scienceQuestionCount }}</td>
+      <td>{{ exam.historyQuestionCount }}</td>
+      <td>{{ exam.relegionQuestionCount }}</td>
+      <td>{{ exam.foreignLanguageQuestionCount }}</td>
+      <td>
+        <ng-container *ngIf="exam.active; else completed">
+          <input
+            type="checkbox"
+            [checked]="exam.active"
+            (change)="onClose(exam.id)"
+          />
+        </ng-container>
+        <ng-template #completed> Tamamlanmış </ng-template>
+      </td>
+      <td>
+        <button class="results-btn" (click)="viewResults(exam.id)">
+          Göster
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>
