@@ -5,6 +5,7 @@ import { ExamService } from '../../services/exam.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { ExamComplitionForm } from '../../models/ExamComplitionForm';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-exam-complition-page',
@@ -23,14 +24,15 @@ export class ExamComplitionPageComponent implements OnInit{
   ];
   examId!: string;
   examComplitionForm: ExamComplitionForm = new ExamComplitionForm(
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
   );
 
-  constructor(private examService: ExamService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private examService: ExamService, private route: ActivatedRoute, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.examId = this.route.snapshot.paramMap.get('id')!;
-    this.examComplitionForm.id = +this.examId;
+    this.examComplitionForm.examId = +this.examId;
+    this.examComplitionForm.studentEmail = this.authService.getEmail();
     this.examService.getExamById(this.examId).pipe(
       tap(response => {
         this.lessons[0].total = response.turkishQuestionCount;
