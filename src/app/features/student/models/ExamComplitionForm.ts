@@ -1,6 +1,7 @@
 export class ExamComplitionForm {
     constructor(
-      public id: number,
+      public examId: number,
+      public studentEmail: string,
       public turkishCorrectCount: number,
       public mathCorrectCount: number,
       public scienceCorrectCount: number,
