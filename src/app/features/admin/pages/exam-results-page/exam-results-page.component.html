@@ -19,7 +19,7 @@
         <tr *ngFor="let r of results">
           <td>{{ r.studentId }}</td>
           <td>{{ r.studentName }}</td>
-          <td>{{ r.score }}</td>
+          <td>{{ r.net }}</td>
           <td>
             <span [class.completed]="r.completed"
                   [class.pending]="!r.completed">

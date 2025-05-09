@@ -1,4 +1,4 @@
-export class ExamComplitionForm {
+export class ExamCompletionDTO {
     constructor(
       public examId: number,
       public studentEmail: string,
@@ -6,13 +6,13 @@ export class ExamComplitionForm {
       public mathCorrectCount: number,
       public scienceCorrectCount: number,
       public historyCorrectCount: number,
-      public relegionCorrectCount: number,
+      public religionCorrectCount: number,
       public foreignLanguageCorrectCount: number,
       public turkishWrongCount: number,
       public mathWrongCount: number,
       public scienceWrongCount: number,
       public historyWrongCount: number,
-      public relegionWrongCount: number,
+      public religionWrongCount: number,
       public foreignLanguageWrongCount: number,
     ) {}
 }

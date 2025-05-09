@@ -76,7 +76,7 @@ export class ExamsPageComponent implements OnInit {
             newExam.mathQuestionCount,
             newExam.scienceQuestionCount,
             newExam.historyQuestionCount,
-            newExam.relegionQuestionCount,
+            newExam.religionQuestionCount,
             newExam.foreignLanguageQuestionCount,
             newExam.active
           )
