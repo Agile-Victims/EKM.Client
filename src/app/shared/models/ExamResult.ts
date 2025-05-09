@@ -2,7 +2,9 @@ export class ExamResult {
     constructor(
       public studentId: number,
       public studentName: string,
-      public score: number,
+      public studentSurname: string,
+      public studentEmail: string,
+      public net: number,
       public completed: boolean
     ) {}
   }

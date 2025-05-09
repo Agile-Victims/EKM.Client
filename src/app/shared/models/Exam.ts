@@ -6,7 +6,7 @@ export class Exam {
       public mathQuestionCount: number,
       public scienceQuestionCount: number,
       public historyQuestionCount: number,
-      public relegionQuestionCount: number,
+      public religionQuestionCount: number,
       public foreignLanguageQuestionCount: number,
       public active: boolean
     ) {}

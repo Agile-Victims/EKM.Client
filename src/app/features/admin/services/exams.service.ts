@@ -29,10 +29,8 @@ export class ExamsService {
     );
   }
 
-  /** Belirli bir sınavın sonuçlarını alır */
-  getExamResults(examId: number): Observable<ExamResult[]> {
-    return this.http.get<ExamResult[]>(
-      `${apiUrl}/${this.apiName}/getResults/${examId}`
-    );
+
+  getExamResults(id: number): Observable<any> {
+    return this.http.get<any>(`${apiUrl}/${this.apiName}/getResults/${id}`);
   }
 }

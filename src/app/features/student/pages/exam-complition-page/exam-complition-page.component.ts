@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ExamService } from '../../services/exam.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
-import { ExamComplitionForm } from '../../models/ExamComplitionForm';
+import { ExamCompletionDTO } from '../../models/ExamCompletionDTO';
 import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
@@ -19,11 +19,11 @@ export class ExamComplitionPageComponent implements OnInit{
     { key: 'math', name: 'Matematik', total: 0, correct: 0, wrong: 0 },
     { key: 'science', name: 'Fen Bilimleri', total: 0, correct: 0, wrong: 0 },
     { key: 'history', name: 'Tarih', total: 0, correct: 0, wrong: 0 },
-    { key: 'relegion', name: 'Din Kültürü', total: 0, correct: 0, wrong: 0 },
+    { key: 'religion', name: 'Din Kültürü', total: 0, correct: 0, wrong: 0 },
     { key: 'foreignLanguage', name: 'Yabancı Dil', total: 0, correct: 0, wrong: 0 }
   ];
   examId!: string;
-  examComplitionForm: ExamComplitionForm = new ExamComplitionForm(
+  examComplitionForm: ExamCompletionDTO = new ExamCompletionDTO(
     0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
   );
 
@@ -33,13 +33,16 @@ export class ExamComplitionPageComponent implements OnInit{
     this.examId = this.route.snapshot.paramMap.get('id')!;
     this.examComplitionForm.examId = +this.examId;
     this.examComplitionForm.studentEmail = this.authService.getEmail();
+    
     this.examService.getExamById(this.examId).pipe(
       tap(response => {
+        console.log(response)
         this.lessons[0].total = response.turkishQuestionCount;
         this.lessons[1].total = response.mathQuestionCount;
         this.lessons[2].total = response.scienceQuestionCount;
         this.lessons[3].total = response.historyQuestionCount;
         this.lessons[4].total = response.relegionQuestionCount;
+        console.log(this.lessons[4])
         this.lessons[5].total = response.foreignLanguageQuestionCount;
       }),
       catchError(error => {
@@ -60,11 +63,11 @@ export class ExamComplitionPageComponent implements OnInit{
     this.examComplitionForm.scienceWrongCount = this.lessons[2].wrong;
     this.examComplitionForm.historyCorrectCount = this.lessons[3].correct;
     this.examComplitionForm.historyWrongCount = this.lessons[3].wrong;
-    this.examComplitionForm.relegionCorrectCount = this.lessons[4].correct;
-    this.examComplitionForm.relegionWrongCount = this.lessons[4].wrong;
+    this.examComplitionForm.religionCorrectCount = this.lessons[4].correct;
+    this.examComplitionForm.religionWrongCount = this.lessons[4].wrong;
     this.examComplitionForm.foreignLanguageCorrectCount = this.lessons[5].correct;
     this.examComplitionForm.foreignLanguageWrongCount = this.lessons[5].wrong;
-
+    console.log(this.examComplitionForm)
     this.examService.completeExam(this.examComplitionForm).pipe(
       tap(response => {
         window.alert(`Deneme tamamlandı`);
