@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ExamService } from '../../services/exam.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap, throwError } from 'rxjs';
 import { ExamCompletionDTO } from '../../models/ExamCompletionDTO';
 import { AuthService } from '../../../../shared/services/auth.service';
 
@@ -32,9 +32,24 @@ export class ExamComplitionPageComponent implements OnInit{
   ngOnInit(): void {
     this.examId = this.route.snapshot.paramMap.get('id')!;
     this.examComplitionForm.examId = +this.examId;
-    this.examComplitionForm.studentEmail = this.authService.getEmail();
+    const studentEmail = this.authService.getEmail();
+    this.examComplitionForm.studentEmail = studentEmail;
     
-    this.examService.getExamById(this.examId).pipe(
+    // First check if the exam is already completed
+    this.examService.getCompletedExamsByStudentEmail(studentEmail).pipe(
+      map(completedExamIds => completedExamIds.includes(+this.examId)),
+      tap(isCompleted => {
+        if (isCompleted) {
+          window.alert('Bu denemeyi daha önce tamamladınız. Tekrar tamamlayamazsınız.');
+          this.router.navigate(['/student/exams']);
+        }
+      }),
+      switchMap(isCompleted => {
+        if (isCompleted) {
+          return throwError(() => new Error('Exam already completed'));
+        }
+        return this.examService.getExamById(this.examId);
+      }),
       tap(response => {
         console.log(response)
         this.lessons[0].total = response.turkishQuestionCount;
@@ -46,6 +61,9 @@ export class ExamComplitionPageComponent implements OnInit{
         this.lessons[5].total = response.foreignLanguageQuestionCount;
       }),
       catchError(error => {
+        if (error.message === 'Exam already completed') {
+          return throwError(() => error);
+        }
         window.alert(`Deneme bulunamadı`);
         this.router.navigate(['/student/exams']);
         return throwError(() => error);

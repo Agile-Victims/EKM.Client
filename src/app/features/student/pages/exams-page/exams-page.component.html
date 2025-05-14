@@ -1,16 +1,28 @@
 <div class="page-container">
     <div class="exams-container">
         <h1>Denemelerim:</h1>
-        <a *ngFor="let exam of exams" [routerLink]="['/student/exam', exam.id]">
-            <div class="exam">
-              <h2>Deneme Adı: {{ exam.examName }}</h2>
-              <p>Türkçe Soru Sayısı: {{ exam.turkishQuestionCount }}</p>
-              <p>Matematik Soru Sayısı: {{ exam.mathQuestionCount }}</p>
-              <p>Sosyal Soru Sayısı: {{ exam.historyQuestionCount }}</p>
-              <p>Fen Soru Sayısı: {{ exam.scienceQuestionCount }}</p>
-              <p>Yabancı Dil Soru Sayısı: {{ exam.foreignLanguageQuestionCount }}</p>
-              <p>Din Kültürü Soru Sayısı: {{ exam.religionQuestionCount }}</p>
+        <ng-container *ngFor="let exam of exams">
+            <a *ngIf="!isExamCompleted(exam.id)" [routerLink]="['/student/exam', exam.id]">
+                <div class="exam">
+                  <h2>Deneme Adı: {{ exam.examName }}</h2>
+                  <p>Türkçe Soru Sayısı: {{ exam.turkishQuestionCount }}</p>
+                  <p>Matematik Soru Sayısı: {{ exam.mathQuestionCount }}</p>
+                  <p>Sosyal Soru Sayısı: {{ exam.historyQuestionCount }}</p>
+                  <p>Fen Soru Sayısı: {{ exam.scienceQuestionCount }}</p>
+                  <p>Yabancı Dil Soru Sayısı: {{ exam.foreignLanguageQuestionCount }}</p>
+                  <p>Din Kültürü Soru Sayısı: {{ exam.religionQuestionCount }}</p>
+                </div>
+            </a>
+            <div *ngIf="isExamCompleted(exam.id)" class="exam completed">
+                <h2>Deneme Adı: {{ exam.examName }} (Tamamlandı)</h2>
+                <p>Türkçe Soru Sayısı: {{ exam.turkishQuestionCount }}</p>
+                <p>Matematik Soru Sayısı: {{ exam.mathQuestionCount }}</p>
+                <p>Sosyal Soru Sayısı: {{ exam.historyQuestionCount }}</p>
+                <p>Fen Soru Sayısı: {{ exam.scienceQuestionCount }}</p>
+                <p>Yabancı Dil Soru Sayısı: {{ exam.foreignLanguageQuestionCount }}</p>
+                <p>Din Kültürü Soru Sayısı: {{ exam.religionQuestionCount }}</p>
+                <p class="completed-message">Bu denemeyi daha önce tamamladınız.</p>
             </div>
-        </a>   
+        </ng-container>
     </div>
 </div>
