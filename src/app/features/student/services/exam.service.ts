@@ -21,4 +21,8 @@ export class ExamService {
     console.log(form)
     return this.http.post<any>(`${apiUrl}/${this.apiName}/completeExam`, form);
   }
+
+  getCompletedExamsByStudentEmail(email: string): Observable<number[]> {
+    return this.http.get<number[]>(`${apiUrl}/${this.apiName}/getCompletedExamsByStudentEmail/${email}`);
+  }
 }
