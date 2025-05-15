@@ -13,8 +13,8 @@
           <th>Ad Soyad</th>
           <th>Türkçe</th>
           <th>Matematik</th>
-          <th>Sosyal</th>
           <th>Fen</th>
+          <th>Tarih</th>
           <th>Din Kültürü</th>
           <th>Yabancı Dil</th>
         </tr>
@@ -22,10 +22,11 @@
       <tbody>
         <tr *ngFor="let r of results">
           <td>{{ r.studentId }}</td>
-          <td>{{ r.studentName }}</td>
+          <td>{{ r.studentName }} {{ r.studentSurname }}</td>
+          <td>{{ r.turkishNet }}</td>
           <td>{{ r.mathNet }}</td>
-          <td>{{ r.socialNet }}</td>
           <td>{{ r.scienceNet }}</td>
+          <td>{{ r.historyNet }}</td>
           <td>{{ r.religionNet }}</td>
           <td>{{ r.foreignLanguageNet }}</td>
         </tr>

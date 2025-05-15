@@ -56,7 +56,7 @@ export class ExamComplitionPageComponent implements OnInit{
         this.lessons[1].total = response.mathQuestionCount;
         this.lessons[2].total = response.scienceQuestionCount;
         this.lessons[3].total = response.historyQuestionCount;
-        this.lessons[4].total = response.relegionQuestionCount;
+        this.lessons[4].total = response.religionQuestionCount;
         console.log(this.lessons[4])
         this.lessons[5].total = response.foreignLanguageQuestionCount;
       }),
