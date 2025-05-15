@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ExamsService } from '../../../admin/services/exams.service';
 import { Exam } from '../../../../shared/models/Exam';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -19,7 +18,6 @@ export class ExamsPageComponent implements OnInit {
   completedExamIds: number[] = [];
 
   constructor(
-    private examsService: ExamsService, 
     private examService: ExamService,
     private authService: AuthService
   ) {}
@@ -28,7 +26,7 @@ export class ExamsPageComponent implements OnInit {
     const studentEmail = this.authService.getEmail();
     
     forkJoin({
-      exams: this.examsService.getExams(),
+      exams: this.examService.getExams(),
       completedExams: this.examService.getCompletedExamsByStudentEmail(studentEmail)
     }).subscribe(result => {
       this.exams = result.exams;
