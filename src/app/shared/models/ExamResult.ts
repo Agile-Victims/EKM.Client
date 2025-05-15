@@ -6,8 +6,8 @@ export class ExamResult {
       public studentEmail: string,
       public turkishNet: number,
       public mathNet: number,
-      public socialNet: number,
       public scienceNet: number,
+      public historyNet: number,
       public religionNet: number,
       public foreignLanguageNet: number
     ) {}
