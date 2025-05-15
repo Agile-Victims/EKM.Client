@@ -11,21 +11,23 @@
         <tr>
           <th>Öğrenci ID</th>
           <th>Ad Soyad</th>
-          <th>Puan</th>
-          <th>Durum</th>
+          <th>Türkçe</th>
+          <th>Matematik</th>
+          <th>Sosyal</th>
+          <th>Fen</th>
+          <th>Din Kültürü</th>
+          <th>Yabancı Dil</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let r of results">
           <td>{{ r.studentId }}</td>
           <td>{{ r.studentName }}</td>
-          <td>{{ r.net }}</td>
-          <td>
-            <span [class.completed]="r.completed"
-                  [class.pending]="!r.completed">
-              {{ r.completed ? 'Tamamlandı' : 'Tamamlanmadı' }}
-            </span>
-          </td>
+          <td>{{ r.mathNet }}</td>
+          <td>{{ r.socialNet }}</td>
+          <td>{{ r.scienceNet }}</td>
+          <td>{{ r.religionNet }}</td>
+          <td>{{ r.foreignLanguageNet }}</td>
         </tr>
         <tr *ngIf="results.length === 0">
           <td colspan="4" class="no-data">Hiç sonuç yok.</td>
