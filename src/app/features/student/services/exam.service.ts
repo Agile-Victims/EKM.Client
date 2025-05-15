@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { apiUrl } from '../../../shared/models/ApiUrl';
 import { ExamCompletionDTO } from '../models/ExamCompletionDTO';
+import { Exam } from '../../../shared/models/Exam';
 
 
 @Injectable({
@@ -12,6 +13,11 @@ export class ExamService {
   apiName = 'exams';
 
   constructor(private http: HttpClient) {}
+
+  getExams(): Observable<Exam[]> {
+    return this.http.get<Exam[]>(`${apiUrl}/${this.apiName}/getAllExams`);
+  }
+  
 
   getExamById(id: string): Observable<any> {
     return this.http.get<any>(`${apiUrl}/${this.apiName}/getExamById/${Number(id)}`);
@@ -23,6 +29,6 @@ export class ExamService {
   }
 
   getCompletedExamsByStudentEmail(email: string): Observable<number[]> {
-    return this.http.get<number[]>(`${apiUrl}/${this.apiName}/getCompletedExamsByStudentEmail/${email}`);
+    return this.http.get<number[]>(`${apiUrl}/${this.apiName}/studentCompletedExams/${email}`);
   }
 }

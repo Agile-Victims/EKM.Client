@@ -18,13 +18,13 @@ export class ExamsService {
 
   /** Yeni sınav ekler */
   addExam(exam: Partial<Exam>): Observable<Exam> {
-    return this.http.post<Exam>(`${apiUrl}/admin/${this.apiName}`, exam);
+    return this.http.post<Exam>(`${apiUrl}/${this.apiName}/createExam`, exam);
   }
 
   /** Sınavı pasife alır (active → false) */
   deactivateExam(examId: number): Observable<Exam> {
     return this.http.put<Exam>(
-      `${apiUrl}/admin/${this.apiName}/${examId}/deactivate`,
+      `${apiUrl}/${this.apiName}/deactivateExam/${examId}`,
       {}
     );
   }
