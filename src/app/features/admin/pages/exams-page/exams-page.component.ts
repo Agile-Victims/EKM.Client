@@ -19,26 +19,8 @@ import { Router } from '@angular/router';
 })
 export class ExamsPageComponent implements OnInit {
   exams: Exam[] = [];
-  addExamForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private examSvc: ExamsService,
-    private router: Router
-  ) {
-    this.addExamForm = this.fb.group({
-      examName: ['', [Validators.required]],
-      turkishQuestionCount: [0, [Validators.required, Validators.min(0)]],
-      mathQuestionCount: [0, [Validators.required, Validators.min(0)]],
-      scienceQuestionCount: [0, [Validators.required, Validators.min(0)]],
-      historyQuestionCount: [0, [Validators.required, Validators.min(0)]],
-      relegionQuestionCount: [0, [Validators.required, Validators.min(0)]],
-      foreignLanguageQuestionCount: [
-        0,
-        [Validators.required, Validators.min(0)],
-      ],
-    });
-  }
+  constructor(private examSvc: ExamsService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadExams();
@@ -61,30 +43,6 @@ export class ExamsPageComponent implements OnInit {
         error: (err) => console.error('Failed to deactivate exam', err),
       });
     }
-  }
-
-  onSubmit(): void {
-    if (!this.addExamForm.valid) return;
-
-    this.examSvc.addExam(this.addExamForm.value).subscribe({
-      next: (newExam) => {
-        this.exams.push(
-          new Exam(
-            newExam.id,
-            newExam.examName,
-            newExam.turkishQuestionCount,
-            newExam.mathQuestionCount,
-            newExam.scienceQuestionCount,
-            newExam.historyQuestionCount,
-            newExam.religionQuestionCount,
-            newExam.foreignLanguageQuestionCount,
-            newExam.active
-          )
-        );
-        this.addExamForm.reset();
-      },
-      error: (err) => console.error('Failed to add exam', err),
-    });
   }
 
   viewResults(examId: number): void {
