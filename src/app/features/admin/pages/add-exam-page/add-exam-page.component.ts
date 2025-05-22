@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExamsService } from '../../services/exams.service';
 import { Router } from '@angular/router';
@@ -18,37 +18,13 @@ export class AddExamPageComponent implements OnInit{
     '', '', '', '', '', '', 
   );
   addExamForm: FormGroup;
-  subjectMap: Record<string, { subject: string; id: number }[]> = {
-    turkish: [
-      { subject: 'Türkçe 1', id: 1 },
-      { subject: 'Türkçe 2', id: 2 },
-      { subject: 'Türkçe 3', id: 3 }
-    ],
-    math: [
-      { subject: 'Matematik 1', id: 4 },
-      { subject: 'Matematik 2', id: 5 },
-      { subject: 'Matematik 3', id: 6 }
-    ],
-    science: [
-      { subject: 'Fen 1', id: 7 },
-      { subject: 'Fen 2', id: 8 },
-      { subject: 'Fen 3', id: 9 }
-    ],
-    history: [
-      { subject: 'Tarih 1', id: 10 },
-      { subject: 'Tarih 2', id: 11 },
-      { subject: 'Tarih 3', id: 12 }
-    ],
-    religion: [
-      { subject: 'Din 1', id: 13 },
-      { subject: 'Din 2', id: 14 },
-      { subject: 'Din 3', id: 15 }
-    ],
-    foreignLanguage: [
-      { subject: 'Yabancı Dil 1', id: 16 },
-      { subject: 'Yabancı Dil 2', id: 17 },
-      { subject: 'Yabancı Dil 3', id: 18 }
-    ]
+  subjectMap: Record<string, { subjectName: string; id: number }[]> = {
+    turkish: [],
+    math: [],
+    science: [],
+    history: [],
+    religion: [],
+    foreignLanguage: []
   };
 
   lessons: string[] = ["turkish", "math", "science", "history", "religion", "foreignLanguage"];
@@ -59,7 +35,7 @@ export class AddExamPageComponent implements OnInit{
   religionSubjects: string[] = [];
   foreignLanguageSubjects: string[] = [];
 
-  constructor(private fb: FormBuilder, private examSvc: ExamsService, private subjectService: SubjectService) {
+  constructor(private fb: FormBuilder, private examSvc: ExamsService, private subjectService: SubjectService,  private cdr: ChangeDetectorRef) {
     this.addExamForm = this.fb.group({
       turkish: this.fb.array([this.createQuestionGroup()]),
       math: this.fb.array([this.createQuestionGroup()]),
@@ -71,7 +47,20 @@ export class AddExamPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    //this.getAllSubjects();
+    this.lessons.forEach(lesson => {
+      this.subjectService.getSubjects(lesson).subscribe({
+        next: (subjects) => {
+          this.subjectMap[lesson] = [];
+          this.subjectMap[lesson] = subjects;
+          this.cdr.detectChanges();
+          const formArray = this.getLessonArray(lesson);
+          if (subjects.length > 0 && formArray.length > 0) {
+            formArray.at(0).get('subject')?.setValue(subjects[0].id.toString());
+          }
+        },
+        error: (err) => console.error(`Failed to get subjects for ${lesson}`, err),
+      });
+    });
   }
 
   createQuestionGroup(): FormGroup {
@@ -101,8 +90,6 @@ export class AddExamPageComponent implements OnInit{
       alert("Tüm derslerde en az bir geçerli konu ve pozitif soru sayısı olmalı.");
       return;
     }
-
-    console.log(this.addExamForm.value)
 
     Object.keys(this.addExamForm.value).forEach(lesson => {
       var totalQuestionCount: number = 0;
@@ -160,27 +147,39 @@ export class AddExamPageComponent implements OnInit{
         }
     });
 
-    console.log(this.addExamRequest);
 
     this.examSvc.addExam(this.addExamRequest).subscribe({
       next: () => {
         this.addExamForm.reset();
-        this.ngOnInit(); // Formu sıfırla ve yeniden başlat
+        this.ngOnInit();
       },
       error: (err) => console.error('Failed to add exam', err),
     });
   }
 
-  getAllSubjects() {
-  this.lessons.forEach(lesson => {
-    this.subjectService.getSubjects(lesson).subscribe({
-      next: (subjects) => {
-        console.log(subjects)
-        this.subjectMap[lesson] = []; // önce temizle
-        this.subjectMap[lesson] = subjects; // sonra yeni gelenleri ata
-      },
-      error: (err) => console.error(`Failed to get subjects for ${lesson}`, err),
-    });
-  });
-}
+  translateLesson(lesson: string){
+    var translation = "";
+    switch(lesson){
+      case "turkish":
+        translation = "Türkçe";
+        break;
+      case "math":
+        translation = "Matematik"; 
+        break;
+      case "science":
+        translation = "Fen Bilimleri";
+        break;
+      case "history":
+        translation = "T.C. İnkilap Tarihi ve Atatürkçülük";
+        break;
+      case "religion":
+        translation = "Din Kültürü ve Ahlak Bilgisi";
+        break;
+      case "foreignLanguage":
+        translation = "Yabancı Dil";
+        break;
+    }
+
+    return translation;
+  }
 }
