@@ -15,7 +15,17 @@
       <p class="no-lessons">Henüz ders seçimi yapılmamış.</p>
     </ng-template>
 
+    <div *ngIf="warningMessage" class="warning-message">
+      {{ warningMessage }}
+    </div>
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
     <form class="lessons-form">
+      <div class="info-message">
+        <p>Öğretmenler sadece bir ders seçebilir. Başka bir ders seçmek isterseniz, önce mevcut seçilen dersi kaldırmanız gerekir.</p>
+      </div>
       <div class="checkbox-grid">
         <label *ngFor="let lesson of lessonsList">
           <input

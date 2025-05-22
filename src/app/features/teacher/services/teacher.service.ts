@@ -4,13 +4,18 @@ import { Observable, of } from 'rxjs';
 import { apiUrl } from '../../../shared/models/ApiUrl';
 import { RegisterRequest } from '../../../shared/models/RegisterRequest';
 import { AuthService } from '../../../shared/services/auth.service';
-import { SetClassesRequest } from '../../../shared/models/SetClassesRequest';
 
 export interface TeacherProfile {
   firstName: string;
   lastName: string;
   email: string;
-  classes: string
+  classes: string;
+  subjects?: { [lesson: string]: string };
+}
+
+export interface SubjectPayload {
+  lesson: string;
+  subject: string;
 }
 
 @Injectable({
@@ -40,14 +45,34 @@ export class TeacherService {
     );
   }
 
-
-  /*updateeMyLessons(lessons: string): Observable<any> {
-    const setClassesRequest: SetClassesRequest = new SetClassesRequest(this.authService.getEmail(), lessons);
-    console.log(setClassesRequest)
-    return this.http.put<any>(`${apiUrl}/${this.apiName}/set-classes`, { setClassesRequest });
-  }*/
-
   getProfile(): Observable<TeacherProfile> {
     return this.http.get<TeacherProfile>(`${apiUrl}/${this.apiName}/get-my-info/${this.authService.getEmail()}`);
+  }
+
+  getSubjects(): Observable<{ [lesson: string]: string }> {
+    return this.http.get<{ [lesson: string]: string }>(
+      `${apiUrl}/${this.apiName}/subjects/${this.authService.getEmail()}`
+    );
+  }
+
+  addSubject(lesson: string, subject: string): Observable<any> {
+    const payload: SubjectPayload = {
+      lesson,
+      subject
+    };
+    
+    return this.http.post<any>(
+      `${apiUrl}/${this.apiName}/subjects/add`,
+      {
+        email: this.authService.getEmail(),
+        ...payload
+      }
+    );
+  }
+
+  deleteSubject(lesson: string): Observable<any> {
+    return this.http.delete<any>(
+      `${apiUrl}/${this.apiName}/subjects/delete/${this.authService.getEmail()}/${encodeURIComponent(lesson)}`
+    );
   }
 }
