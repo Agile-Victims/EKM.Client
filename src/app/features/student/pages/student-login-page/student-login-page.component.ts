@@ -22,7 +22,7 @@ export class StudentLoginPageComponent {
       this.authService.login(loginRequest, 'student').pipe(
         tap(response => {
           this.authService.setEmail(loginRequest.email);
-          this.router.navigate(['/student/exams']);
+          this.router.navigate(['/student/']);
           window.alert(`Giriş başarılı`);
           console.log(response);
         }),

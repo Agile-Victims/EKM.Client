@@ -4,8 +4,10 @@ import { StudentLoginPageComponent } from './pages/student-login-page/student-lo
 import { StudentRegisterPageComponent } from './pages/student-register-page/student-register-page.component'; // Newly created component
 import { ExamComplitionPageComponent } from './pages/exam-complition-page/exam-complition-page.component';
 import { ExamsPageComponent } from './pages/exams-page/exams-page.component';
+import { StudentMainPageComponent } from './pages/student-main-page/student-main-page.component';
 
 const routes: Routes = [
+  { path: '', component: StudentMainPageComponent},
   { path: 'login', component: StudentLoginPageComponent },
   { path: 'register', component: StudentRegisterPageComponent },
   { path: 'exam/:id', component: ExamComplitionPageComponent },
