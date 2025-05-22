@@ -71,7 +71,7 @@ export class AddExamPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getAllSubjects();
+    //this.getAllSubjects();
   }
 
   createQuestionGroup(): FormGroup {
@@ -162,7 +162,7 @@ export class AddExamPageComponent implements OnInit{
 
     console.log(this.addExamRequest);
 
-    this.examSvc.addExam(this.addExamForm.value).subscribe({
+    this.examSvc.addExam(this.addExamRequest).subscribe({
       next: () => {
         this.addExamForm.reset();
         this.ngOnInit(); // Formu sıfırla ve yeniden başlat
@@ -175,6 +175,7 @@ export class AddExamPageComponent implements OnInit{
   this.lessons.forEach(lesson => {
     this.subjectService.getSubjects(lesson).subscribe({
       next: (subjects) => {
+        console.log(subjects)
         this.subjectMap[lesson] = []; // önce temizle
         this.subjectMap[lesson] = subjects; // sonra yeni gelenleri ata
       },

@@ -48,31 +48,4 @@ export class TeacherService {
   getProfile(): Observable<TeacherProfile> {
     return this.http.get<TeacherProfile>(`${apiUrl}/${this.apiName}/get-my-info/${this.authService.getEmail()}`);
   }
-
-  getSubjects(): Observable<{ [lesson: string]: string }> {
-    return this.http.get<{ [lesson: string]: string }>(
-      `${apiUrl}/${this.apiName}/subjects/${this.authService.getEmail()}`
-    );
-  }
-
-  addSubject(lesson: string, subject: string): Observable<any> {
-    const payload: SubjectPayload = {
-      lesson,
-      subject
-    };
-    
-    return this.http.post<any>(
-      `${apiUrl}/${this.apiName}/subjects/add`,
-      {
-        email: this.authService.getEmail(),
-        ...payload
-      }
-    );
-  }
-
-  deleteSubject(lesson: string): Observable<any> {
-    return this.http.delete<any>(
-      `${apiUrl}/${this.apiName}/subjects/delete/${this.authService.getEmail()}/${encodeURIComponent(lesson)}`
-    );
-  }
 }
