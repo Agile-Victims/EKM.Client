@@ -5,8 +5,8 @@
     <div formArrayName="{{ lesson }}">
       <div *ngFor="let question of getLessonArray(lesson).controls; let i = index" [formGroupName]="i">
         <select formControlName="subject">
-          <option *ngFor="let subject of subjectMap[lesson]" [value]="subject">
-            {{ subject }}
+          <option *ngFor="let subject of subjectMap[lesson]" [value]="subject.id">
+            {{ subject.subject }}
           </option>
         </select>
 
