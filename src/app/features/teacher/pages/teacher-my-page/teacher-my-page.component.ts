@@ -13,6 +13,8 @@ import { catchError, tap, throwError } from 'rxjs';
 })
 export class TeacherMyPageComponent{
   profile: TeacherProfile | null = null;
+  warningMessage: string = '';
+  successMessage: string = '';
 
   lessonsList = [
     'Türkçe',
@@ -31,7 +33,7 @@ export class TeacherMyPageComponent{
         if(this.profile.classes){
           var lessons = this.profile?.classes.split('/');
           if(lessons){
-            this.selectedLessons = lessons;
+            this.selectedLessons = lessons.filter(lesson => lesson.trim() !== '');
           }
         }
       }),
@@ -48,10 +50,20 @@ export class TeacherMyPageComponent{
 
   onCheckboxChange(e: Event, lesson: string) {
     const checked = (e.target as HTMLInputElement).checked;
+    
     if (checked) {
-      this.selectedLessons.push(lesson);
+      // If a lesson is already selected, show warning
+      if (this.selectedLessons.length > 0) {
+        this.warningMessage = 'Sadece bir ders seçebilirsiniz. Mevcut ders değiştirilecektir.';
+        // Uncheck the current selection
+        this.selectedLessons = [];
+      } else {
+        this.warningMessage = '';
+      }
+      this.selectedLessons = [lesson];
     } else {
       this.selectedLessons = this.selectedLessons.filter((l) => l !== lesson);
+      this.warningMessage = '';
     }
   }
 
@@ -60,7 +72,11 @@ export class TeacherMyPageComponent{
     this.teacherService.updateMyLessons(classes).pipe(
       tap(response => {
         if (response.success) {
-          alert('Ders seçiminiz kaydedildi.');
+          this.successMessage = 'Ders seçiminiz kaydedildi.';
+          this.warningMessage = '';
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
         }
       }),
       catchError(error => {
