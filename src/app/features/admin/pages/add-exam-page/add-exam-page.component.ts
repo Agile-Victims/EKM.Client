@@ -4,6 +4,7 @@ import { ExamsService } from '../../services/exams.service';
 import { Router } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { SubjectService } from '../../../../shared/services/subject.service';
+import { AddExamRequest } from '../../../../shared/models/AddExamRequest';
 
 @Component({
   selector: 'app-add-exam-page',
@@ -12,15 +13,44 @@ import { SubjectService } from '../../../../shared/services/subject.service';
   styleUrl: './add-exam-page.component.css'
 })
 export class AddExamPageComponent implements OnInit{
+  addExamRequest: AddExamRequest = new AddExamRequest(
+    '', 0, 0, 0, 0, 0, 0,
+    '', '', '', '', '', '', 
+  );
   addExamForm: FormGroup;
-  subjectMap: Record<string, string[]> = {
-    turkish: ['Türkçe 1', 'Türkçe 2', 'Türkçe 3'],
-    math: ['Matematik 1', 'Matematik 2', 'Matematik 3'],
-    science: ['Fen 1', 'Fen 2', 'Fen 3'],
-    history: ['Tarih 1', 'Tarih 2', 'Tarih 3'],
-    religion: ['Din 1', 'Din 2', 'Din 3'],
-    foreignLanguage: ['Yabancı Dil 1', 'Yabancı Dil 2', 'Yabancı Dil 3']
+  subjectMap: Record<string, { subject: string; id: number }[]> = {
+    turkish: [
+      { subject: 'Türkçe 1', id: 1 },
+      { subject: 'Türkçe 2', id: 2 },
+      { subject: 'Türkçe 3', id: 3 }
+    ],
+    math: [
+      { subject: 'Matematik 1', id: 4 },
+      { subject: 'Matematik 2', id: 5 },
+      { subject: 'Matematik 3', id: 6 }
+    ],
+    science: [
+      { subject: 'Fen 1', id: 7 },
+      { subject: 'Fen 2', id: 8 },
+      { subject: 'Fen 3', id: 9 }
+    ],
+    history: [
+      { subject: 'Tarih 1', id: 10 },
+      { subject: 'Tarih 2', id: 11 },
+      { subject: 'Tarih 3', id: 12 }
+    ],
+    religion: [
+      { subject: 'Din 1', id: 13 },
+      { subject: 'Din 2', id: 14 },
+      { subject: 'Din 3', id: 15 }
+    ],
+    foreignLanguage: [
+      { subject: 'Yabancı Dil 1', id: 16 },
+      { subject: 'Yabancı Dil 2', id: 17 },
+      { subject: 'Yabancı Dil 3', id: 18 }
+    ]
   };
+
   lessons: string[] = ["turkish", "math", "science", "history", "religion", "foreignLanguage"];
   turkishSubjects: string[] = [];
   mathSubjects: string[] = [];
@@ -74,6 +104,64 @@ export class AddExamPageComponent implements OnInit{
 
     console.log(this.addExamForm.value)
 
+    Object.keys(this.addExamForm.value).forEach(lesson => {
+      var totalQuestionCount: number = 0;
+      const subjects = this.addExamForm.value[lesson];
+
+      subjects.forEach((subject: any) => {
+        totalQuestionCount += subject.questionCount;
+        switch(lesson){
+          case "turkish":
+            this.addExamRequest.turkishSubjects += `/${subject.subject}-${subject.questionCount}`;
+            break;
+          case "math":
+            this.addExamRequest.mathSubjects += `/${subject.subject}-${subject.questionCount}`;
+            break;
+          case "science":
+            this.addExamRequest.scienceSubjects += `/${subject.subject}-${subject.questionCount}`;
+            break;
+          case "history":
+            this.addExamRequest.historySubjects += `/${subject.subject}-${subject.questionCount}`;
+            break;
+          case "religion":
+            this.addExamRequest.religionSubjects += `/${subject.subject}-${subject.questionCount}`;
+            break;
+          case "foreignLanguage":
+            this.addExamRequest.foreignLanguageSubjects += `/${subject.subject}-${subject.questionCount}`;
+            break;
+        }
+      });
+
+      switch(lesson){
+          case "turkish":
+            this.addExamRequest.turkishQuestionCount = totalQuestionCount;
+            this.addExamRequest.turkishSubjects = this.addExamRequest.turkishSubjects .slice(1); 
+            break;
+          case "math":
+            this.addExamRequest.mathQuestionCount = totalQuestionCount;
+            this.addExamRequest.mathSubjects = this.addExamRequest.mathSubjects .slice(1); 
+            break;
+          case "science":
+            this.addExamRequest.scienceQuestionCount = totalQuestionCount;
+            this.addExamRequest.scienceSubjects = this.addExamRequest.scienceSubjects .slice(1); 
+            break;
+          case "history":
+            this.addExamRequest.historyQuestionCount = totalQuestionCount;
+            this.addExamRequest.historySubjects = this.addExamRequest.historySubjects .slice(1); 
+            break;
+          case "religion":
+            this.addExamRequest.religionQuestionCount = totalQuestionCount;
+            this.addExamRequest.religionSubjects = this.addExamRequest.religionSubjects .slice(1); 
+            break;
+          case "foreignLanguage":
+            this.addExamRequest.foreignLanguageQuestionCount = totalQuestionCount;
+            this.addExamRequest.foreignLanguageSubjects = this.addExamRequest.foreignLanguageSubjects .slice(1); 
+            break;
+        }
+    });
+
+    console.log(this.addExamRequest);
+
     this.examSvc.addExam(this.addExamForm.value).subscribe({
       next: () => {
         this.addExamForm.reset();
@@ -83,53 +171,15 @@ export class AddExamPageComponent implements OnInit{
     });
   }
 
-  getAllSubjects(){
-    /*this.lessons.forEach(lesson => {
-      this.subjectService.getSubjects(lesson).subscribe({
-        next: (subjects) => {
-          switch(lesson){
-            case "turkish":
-              this.turkishSubjects = subjects;
-              break;
-            case "math":
-              this.mathSubjects = subjects;
-              break;
-            case "science":
-              this.scienceSubjects = subjects;
-              break;
-            case "history":
-              this.historySubjects = subjects;
-              break;
-            case "religion":
-              this.religionSubjects = subjects;
-              break;
-            case "foreignLanguage":
-              this.foreignLanguageSubjects = subjects;
-              break;
-          }
-        },
-        error: (err) => console.error(`Failed to get lessons for ${lesson}`, err),
-      });
+  getAllSubjects() {
+  this.lessons.forEach(lesson => {
+    this.subjectService.getSubjects(lesson).subscribe({
+      next: (subjects) => {
+        this.subjectMap[lesson] = []; // önce temizle
+        this.subjectMap[lesson] = subjects; // sonra yeni gelenleri ata
+      },
+      error: (err) => console.error(`Failed to get subjects for ${lesson}`, err),
     });
-    */
-
-    this.turkishSubjects.push("Türkçe 1");
-    this.turkishSubjects.push("Türkçe 2");
-    this.turkishSubjects.push("Türkçe 3");
-    this.mathSubjects.push("Matematik 1");
-    this.mathSubjects.push("Matematik 1");
-    this.mathSubjects.push("Matematik 1");
-    this.scienceSubjects.push("Fen 1");
-    this.scienceSubjects.push("Fen 2");
-    this.scienceSubjects.push("Fen 3");
-    this.historySubjects.push("Tarih 1");
-    this.historySubjects.push("Tarih 2");
-    this.historySubjects.push("Tarih 3");
-    this.religionSubjects.push("Din 1");
-    this.religionSubjects.push("Din 2");
-    this.religionSubjects.push("Din 3");
-    this.foreignLanguageSubjects.push("Yabacı Dil 1");
-    this.foreignLanguageSubjects.push("Yabacı Dil 2");
-    this.foreignLanguageSubjects.push("Yabacı Dil 3");
-  }
+  });
+}
 }
