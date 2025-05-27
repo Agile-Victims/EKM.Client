@@ -1,4 +1,9 @@
 <form [formGroup]="addExamForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="examTitle">Sınav Başlığı:</label>
+    <input id="examTitle" type="text" formControlName="examTitle"/>
+  </div>
+
   <div *ngFor="let lesson of lessons">
     <h3>{{ translateLesson(lesson) }}</h3>
 

@@ -37,6 +37,7 @@ export class AddExamPageComponent implements OnInit{
 
   constructor(private fb: FormBuilder, private examSvc: ExamsService, private subjectService: SubjectService,  private cdr: ChangeDetectorRef) {
     this.addExamForm = this.fb.group({
+      examTitle: ['', Validators.required],
       turkish: this.fb.array([this.createQuestionGroup()]),
       math: this.fb.array([this.createQuestionGroup()]),
       science: this.fb.array([this.createQuestionGroup()]),
@@ -147,6 +148,7 @@ export class AddExamPageComponent implements OnInit{
         }
     });
 
+    this.addExamRequest.examName = this.addExamForm.get('examTitle')?.value;
 
     this.examSvc.addExam(this.addExamRequest).subscribe({
       next: () => {
