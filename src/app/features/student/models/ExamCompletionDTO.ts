@@ -14,5 +14,17 @@ export class ExamCompletionDTO {
       public historyWrongCount: number,
       public religionWrongCount: number,
       public foreignLanguageWrongCount: number,
+      public turkishWrongSubjects: string,
+      public mathWrongSubjects: string,
+      public scienceWrongSubjects: string,
+      public historyWrongSubjects: string,
+      public religionWrongSubjects: string,
+      public foreignLanguageWrongSubjects: string,
+      public turkishEmptySubjects: string,
+      public mathEmptySubjects: string,
+      public scienceEmptySubjects: string,
+      public historyEmptySubjects: string,
+      public religionEmptySubjects: string,
+      public foreignLanguageEmptySubjects: string,
     ) {}
 }
