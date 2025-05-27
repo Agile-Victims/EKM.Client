@@ -1,22 +1,31 @@
-<div class="container">
-    <form (ngSubmit)="submitExam()" #testForm="ngForm">
-      <div *ngFor="let lesson of lessons" class="lesson-box">
-        <h3>{{ lesson.name }}</h3>
-        <div class="field-group">
-          <label>Toplam Soru:</label>
-          <input type="number" [value]="lesson.total" readonly />
-        </div>
-        <div class="field-group">
-          <label>Doğru Sayısı:</label>
-          <input type="number" [(ngModel)]="lesson.correct" name="{{ lesson.key }}_correct" min="0" [max]="lesson.total" required />
-        </div>
-        <div class="field-group">
-          <label>Yanlış Sayısı:</label>
-          <input type="number" [(ngModel)]="lesson.wrong" name="{{ lesson.key }}_wrong" min="0" [max]="lesson.total" required />
-        </div>
+<form (ngSubmit)="submitExam()" #testForm="ngForm">
+  <div *ngFor="let lesson of lessons" class="lesson-box">
+    <h3>{{ lesson.name }}</h3>
+
+    <div class="field-group">
+      <label>Toplam Soru:</label>
+      <input type="number" [value]="lesson.total" readonly />
+    </div>
+
+    <div class="field-group">
+      <label>Doğru Sayısı:</label>
+      <input type="number" [(ngModel)]="lesson.correct" name="{{ lesson.key }}_correct" min="0" [max]="lesson.total" required />
+    </div>
+
+    <div *ngFor="let subject of lesson.subjects" class="subject-box">
+      <h4>{{ subject.subjectName }}</h4>
+
+      <div class="field-group">
+        <label>Yanlış:</label>
+        <input type="number" [(ngModel)]="subject.wrong" name="{{ lesson.key }}_{{ subject.id }}_wrong" min="0" required />
       </div>
-  
-      <button type="submit" class="submit-btn">Denemeyi Tamamla</button>
-    </form>
+
+      <div class="field-group">
+        <label>Boş:</label>
+        <input type="number" [(ngModel)]="subject.blank" name="{{ lesson.key }}_{{ subject.id }}_blank" min="0" required />
+      </div>
+    </div>
   </div>
-  
+
+  <button type="submit" class="submit-btn">Denemeyi Tamamla</button>
+</form>
