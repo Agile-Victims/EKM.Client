@@ -1,31 +1,46 @@
-<form (ngSubmit)="submitExam()" #testForm="ngForm">
-  <div *ngFor="let lesson of lessons" class="lesson-box">
-    <h3>{{ lesson.name }}</h3>
+<form [formGroup]="examForm" (ngSubmit)="submitExam()">
+  <div *ngFor="let lesson of lessonKeys">
+    <h3>{{ lessonNames[lesson] }}</h3>
 
-    <div class="field-group">
-      <label>Toplam Soru:</label>
-      <input type="number" [value]="lesson.total" readonly />
-    </div>
-
-    <div class="field-group">
-      <label>Doğru Sayısı:</label>
-      <input type="number" [(ngModel)]="lesson.correct" name="{{ lesson.key }}_correct" min="0" [max]="lesson.total" required />
-    </div>
-
-    <div *ngFor="let subject of lesson.subjects" class="subject-box">
-      <h4>{{ subject.subjectName }}</h4>
-
+    <div [formGroup]="getStatsGroup(lesson)">
       <div class="field-group">
-        <label>Yanlış:</label>
-        <input type="number" [(ngModel)]="subject.wrong" name="{{ lesson.key }}_{{ subject.id }}_wrong" min="0" required />
+        <label for="{{lesson}}_correct">Toplam Doğru</label>
+        <input id="{{lesson}}_correct" type="number" formControlName="correct" min="0" />
       </div>
 
       <div class="field-group">
-        <label>Boş:</label>
-        <input type="number" [(ngModel)]="subject.blank" name="{{ lesson.key }}_{{ subject.id }}_blank" min="0" required />
+        <label for="{{lesson}}_wrong">Toplam Yanlış</label>
+        <input id="{{lesson}}_wrong" type="number" formControlName="wrong" min="0" />
       </div>
     </div>
+
+
+    <!-- Konular -->
+    <div formArrayName="{{ lesson }}">
+      <div *ngFor="let group of getLessonArray(lesson).controls; let i = index" [formGroupName]="i" class="subject-entry">
+        <label for="{{lesson}}_{{i}}_subject">Konu</label>
+        <select id="{{lesson}}_{{i}}_subject" formControlName="subjectId">
+          <option *ngFor="let subject of subjectMap[lesson]" [value]="subject.id">
+            {{ subject.subjectName }}
+          </option>
+        </select>
+
+        <div class="field-group">
+          <label for="{{lesson}}_{{i}}_wrongCount">Yanlış</label>
+          <input id="{{lesson}}_{{i}}_wrongCount" type="number" formControlName="wrongCount" min="0" />
+        </div>
+
+        <div class="field-group">
+          <label for="{{lesson}}_{{i}}_emptyCount">Boş</label>
+          <input id="{{lesson}}_{{i}}_emptyCount" type="number" formControlName="emptyCount" min="0" />
+        </div>
+
+        <button type="button" (click)="removeSubject(lesson, i)">Sil</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addSubject(lesson)">+ Konu Ekle</button>
   </div>
 
-  <button type="submit" class="submit-btn">Denemeyi Tamamla</button>
+  <button type="submit">Denemeyi Tamamla</button>
 </form>
