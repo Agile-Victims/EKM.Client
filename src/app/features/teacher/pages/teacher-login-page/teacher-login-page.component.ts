@@ -22,7 +22,7 @@ export class TeacherLoginPageComponent {
       this.authService.login(loginRequest, 'teacher').pipe(
         tap(response => {
           this.authService.setEmail(loginRequest.email);
-          this.router.navigate(['/teacher/my-page']);
+          this.router.navigate(['/teacher']);
         }),
         catchError(error => {
           window.alert(`Giriş başarısız`);
