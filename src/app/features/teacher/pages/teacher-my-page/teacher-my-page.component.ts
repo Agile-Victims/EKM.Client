@@ -104,6 +104,25 @@ export class TeacherMyPageComponent{
   }
 
   addSubject(lesson: string) {
+    this.subjectService.addSubject(lesson, this.newSubjectInput[lesson]?.trim()).pipe(
+      tap(response => {
+        if (response.success) {
+          this.successMessage = 'Konular kaydedildi.';
+          this.warningMessage = '';
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+        }
+      }),
+      catchError(error => {
+        window.alert(`Konular kaydedilemedi`);
+        return throwError(() => error);
+      })
+    ).subscribe();
+
+
+
+
     const subjectInput = this.newSubjectInput[lesson]?.trim();
     if (!subjectInput) {
       this.warningMessage = 'Lütfen konu adını girin.';
@@ -159,20 +178,6 @@ export class TeacherMyPageComponent{
   }
 
   saveSubjects() {
-    this.teacherService.updateTeacherSubjects(this.teacherSubjects).pipe(
-      tap(response => {
-        if (response.success) {
-          this.successMessage = 'Konular kaydedildi.';
-          this.warningMessage = '';
-          setTimeout(() => {
-            this.successMessage = '';
-          }, 3000);
-        }
-      }),
-      catchError(error => {
-        window.alert(`Konular kaydedilemedi`);
-        return throwError(() => error);
-      })
-    ).subscribe();
+    
   }
 }

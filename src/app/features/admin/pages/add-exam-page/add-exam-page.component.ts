@@ -153,6 +153,7 @@ export class AddExamPageComponent implements OnInit{
 
     this.examSvc.addExam(this.addExamRequest).subscribe({
       next: () => {
+        window.alert("Deneme eklendi");
         this.addExamForm.reset();
         this.ngOnInit();
       },
