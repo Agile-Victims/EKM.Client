@@ -39,4 +39,43 @@
       <button type="button" class="save-btn" (click)="save()">Kaydet</button>
     </form>
   </section>
+
+  <!-- Konular Bölümü -->
+  <section class="subjects-section" *ngIf="selectedLessons.length > 0">
+    <h3>Ders Konuları</h3>
+    <div class="info-message">
+      <p>Verdiğiniz derslere konu ekleyebilirsiniz. Bütün konuları giriniz.</p>
+    </div>
+
+    <div *ngFor="let lesson of selectedLessons" class="lesson-subjects">
+      <h4>{{ lesson }} Konuları</h4>
+      
+      <!-- Existing subjects -->
+      <div class="current-subjects" *ngIf="getSubjectsForLesson(lesson).length > 0">
+        <span *ngFor="let subject of getSubjectsForLesson(lesson)" class="subject-tag">
+          {{ subject }}
+          <button type="button" class="remove-subject-btn" (click)="removeSubject(lesson, subject)">
+            ×
+          </button>
+        </span>
+      </div>
+      <p *ngIf="getSubjectsForLesson(lesson).length === 0" class="no-subjects">
+        Bu derse henüz konu eklenmemiş.
+      </p>
+
+      <!-- Add new subject -->
+      <div class="add-subject-form">
+        <input 
+          type="text" 
+          [(ngModel)]="newSubjectInput[lesson]"
+          placeholder="Yeni konu girin..."
+          class="subject-input"
+          (keydown.enter)="addSubject(lesson)"
+        />
+        <button type="button" class="add-subject-btn" (click)="addSubject(lesson)">
+          Konu Ekle
+        </button>
+      </div>
+    </div>
+  </section>
 </div>

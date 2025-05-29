@@ -131,3 +131,109 @@
 .save-btn:hover {
   background: var(--login-primary-color-dark);
 }
+
+/* Subjects Section Styles */
+.subjects-section {
+  margin-top: 2rem;
+}
+
+.subjects-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: var(--login-primary-color-dark);
+}
+
+.lesson-subjects {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  background-color: #fafafa;
+}
+
+.lesson-subjects h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: var(--login-primary-color-dark);
+}
+
+.current-subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.subject-tag {
+  display: inline-flex;
+  align-items: center;
+  background: var(--login-gradient-light);
+  color: var(--login-primary-color-dark);
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--login-primary-color);
+}
+
+.remove-subject-btn {
+  background: none;
+  border: none;
+  color: #f44336;
+  font-size: 1.2rem;
+  line-height: 1;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.remove-subject-btn:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.no-subjects {
+  font-style: italic;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.add-subject-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.subject-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.subject-input:focus {
+  outline: none;
+  border-color: var(--login-primary-color);
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.add-subject-btn {
+  padding: 0.5rem 1rem;
+  background: var(--login-primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.add-subject-btn:hover {
+  background: var(--login-primary-color-dark);
+}
