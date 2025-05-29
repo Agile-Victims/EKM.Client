@@ -48,4 +48,16 @@ export class TeacherService {
   getProfile(): Observable<TeacherProfile> {
     return this.http.get<TeacherProfile>(`${apiUrl}/${this.apiName}/get-my-info/${this.authService.getEmail()}`);
   }
+
+  updateTeacherSubjects(subjects: { [lesson: string]: string }): Observable<any> {
+    const payload = {
+      email: this.authService.getEmail(),
+      subjects: subjects
+    };
+    console.log('sending subjects to backend:', payload);
+    return this.http.put<any>(
+      `${apiUrl}/${this.apiName}/set-subjects`,
+      payload
+    );
+  }
 }
