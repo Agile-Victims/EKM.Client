@@ -94,9 +94,10 @@ export class AddExamPageComponent implements OnInit{
 
     Object.keys(this.addExamForm.value).forEach(lesson => {
       var totalQuestionCount: number = 0;
-      const subjects = this.addExamForm.value[lesson];
+      const subjects = this.addExamForm.value[lesson] ?? [];
+      const subjectArray = Array.isArray(subjects) ? subjects : [subjects];
 
-      subjects.forEach((subject: any) => {
+      subjectArray.forEach((subject: any) => {
         totalQuestionCount += subject.questionCount;
         switch(lesson){
           case "turkish":
