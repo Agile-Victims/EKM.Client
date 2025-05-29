@@ -27,10 +27,10 @@ export class ExamsPageComponent implements OnInit {
     
     forkJoin({
       exams: this.examService.getExams(),
-      completedExams: this.examService.getCompletedExamsByStudentEmail(studentEmail)
+      //completedExams: this.examService.getCompletedExamsByStudentEmail(studentEmail)
     }).subscribe(result => {
       this.exams = result.exams;
-      this.completedExamIds = result.completedExams;
+      //this.completedExamIds = result.completedExams;
     });
   }
 
