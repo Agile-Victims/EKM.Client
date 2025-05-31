@@ -33,4 +33,8 @@ export class ExamsService {
   getExamResults(id: number): Observable<any> {
     return this.http.get<any>(`${apiUrl}/${this.apiName}/getResults/${id}`);
   }
+
+  getDetailedResults(examId: number, studentId: number): Observable<any> {
+    return this.http.get<any>(`${apiUrl}/${this.apiName}/getDetailedResult/${examId}/${studentId}`);
+  }
 }
