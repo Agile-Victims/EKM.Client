@@ -28,7 +28,7 @@ export class SubjectService {
 
   deleteSubject(lesson: string, subjectName: string): Observable<any> {
     return this.http.delete<any>(
-      `${apiUrl}/${this.apiName}/deleteSubject/${lesson}/${subjectName}}`
+      `${apiUrl}/${this.apiName}/deleteSubject/${lesson}/${subjectName}`
     );
   }
 }

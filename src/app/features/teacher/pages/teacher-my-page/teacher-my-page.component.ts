@@ -42,19 +42,49 @@ export class TeacherMyPageComponent{
             // Initialize subject inputs for selected lessons
             this.selectedLessons.forEach(lesson => {
               this.newSubjectInput[lesson] = '';
+              // Load subjects for each selected lesson
+              this.loadSubjectsForLesson(lesson);
             });
           }
         }
-        // Load existing subjects if any
-        if(this.profile.subjects) {
-          this.teacherSubjects = this.profile.subjects;
-        }
+        // Remove the local subjects loading since we're getting from backend
       }),
       catchError(error => {
         window.alert(`Bilgi getirilemedi`);
         return throwError(() => error);
       })
     ).subscribe();
+  }
+
+  loadSubjectsForLesson(lesson: string) {
+    // Convert lesson name to backend format
+    const lessonKey = this.getLessonKey(lesson);
+    this.subjectService.getSubjects(lessonKey).pipe(
+      tap(subjects => {
+        // Convert backend subjects to our format
+        const subjectNames = subjects.map(s => s.subjectName).join('/');
+        if (subjectNames) {
+          this.teacherSubjects[lesson] = subjectNames;
+        }
+      }),
+      catchError(error => {
+        console.error(`Failed to load subjects for ${lesson}`, error);
+        return throwError(() => error);
+      })
+    ).subscribe();
+  }
+
+  getLessonKey(lessonName: string): string {
+    // Convert Turkish lesson names to backend keys
+    const lessonMap: { [key: string]: string } = {
+      'Türkçe': 'turkish',
+      'Matematik': 'math',
+      'Fen Bilimleri': 'science',
+      'T.C. İnkilap Tarihi ve Atatürkçülük': 'history',
+      'Din Kültürü ve Ahlak Bilgisi': 'religion',
+      'Yabancı Dil': 'foreignLanguage'
+    };
+    return lessonMap[lessonName] || lessonName.toLowerCase();
   }
 
   isSelected(lesson: string): boolean {
@@ -76,11 +106,14 @@ export class TeacherMyPageComponent{
       this.selectedLessons = [lesson];
       // Initialize subject input for the new lesson
       this.newSubjectInput[lesson] = '';
+      // Load subjects for the newly selected lesson
+      this.loadSubjectsForLesson(lesson);
     } else {
       this.selectedLessons = this.selectedLessons.filter((l) => l !== lesson);
       this.warningMessage = '';
-      // Remove subject input for unselected lesson
+      // Remove subject input and subjects for unselected lesson
       delete this.newSubjectInput[lesson];
+      delete this.teacherSubjects[lesson];
     }
   }
 
@@ -104,25 +137,6 @@ export class TeacherMyPageComponent{
   }
 
   addSubject(lesson: string) {
-    this.subjectService.addSubject(lesson, this.newSubjectInput[lesson]?.trim()).pipe(
-      tap(response => {
-        if (response.success) {
-          this.successMessage = 'Konular kaydedildi.';
-          this.warningMessage = '';
-          setTimeout(() => {
-            this.successMessage = '';
-          }, 3000);
-        }
-      }),
-      catchError(error => {
-        window.alert(`Konular kaydedilemedi`);
-        return throwError(() => error);
-      })
-    ).subscribe();
-
-
-
-
     const subjectInput = this.newSubjectInput[lesson]?.trim();
     if (!subjectInput) {
       this.warningMessage = 'Lütfen konu adını girin.';
@@ -141,33 +155,68 @@ export class TeacherMyPageComponent{
       return;
     }
 
-    // Update local subjects
-    if (!this.teacherSubjects[lesson]) {
-      this.teacherSubjects[lesson] = subjectInput;
-    } else {
-      this.teacherSubjects[lesson] += '/' + subjectInput;
-    }
-
-    // Clear input
-    this.newSubjectInput[lesson] = '';
-
-    // Save to backend
-    this.saveSubjects();
+    // Convert lesson name to backend format
+    const lessonKey = this.getLessonKey(lesson);
+    
+    // Send to backend immediately
+    this.subjectService.addSubject(lessonKey, subjectInput).pipe(
+      tap(response => {
+        if (response.success) {
+          // Update local subjects
+          if (!this.teacherSubjects[lesson]) {
+            this.teacherSubjects[lesson] = subjectInput;
+          } else {
+            this.teacherSubjects[lesson] += '/' + subjectInput;
+          }
+          
+          // Clear input
+          this.newSubjectInput[lesson] = '';
+          
+          this.successMessage = 'Konu eklendi.';
+          this.warningMessage = '';
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+        }
+      }),
+      catchError(error => {
+        window.alert(`Konu eklenemedi`);
+        return throwError(() => error);
+      })
+    ).subscribe();
   }
 
   removeSubject(lesson: string, subjectToRemove: string) {
-    if (this.teacherSubjects[lesson]) {
-      const subjects = this.teacherSubjects[lesson].split('/');
-      this.teacherSubjects[lesson] = subjects
-        .filter(subject => subject !== subjectToRemove)
-        .join('/');
-      
-      if (this.teacherSubjects[lesson] === '') {
-        delete this.teacherSubjects[lesson];
-      }
-      
-      this.saveSubjects();
-    }
+    // Convert lesson name to backend format
+    const lessonKey = this.getLessonKey(lesson);
+    
+    // Send delete request to backend
+    this.subjectService.deleteSubject(lessonKey, subjectToRemove).pipe(
+      tap(response => {
+        if (response.success) {
+          // Update local subjects
+          if (this.teacherSubjects[lesson]) {
+            const subjects = this.teacherSubjects[lesson].split('/');
+            this.teacherSubjects[lesson] = subjects
+              .filter(subject => subject !== subjectToRemove)
+              .join('/');
+            
+            if (this.teacherSubjects[lesson] === '') {
+              delete this.teacherSubjects[lesson];
+            }
+          }
+          
+          this.successMessage = 'Konu silindi.';
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+        }
+      }),
+      catchError(error => {
+        window.alert(`Konu silinemedi`);
+        return throwError(() => error);
+      })
+    ).subscribe();
   }
 
   getSubjectsForLesson(lesson: string): string[] {
@@ -178,6 +227,6 @@ export class TeacherMyPageComponent{
   }
 
   saveSubjects() {
-    
+    // This method is no longer needed since we save one at a time
   }
 }
