@@ -1,0 +1,99 @@
+<div class="detailed-results-container">
+  <h1>Öğrenci Detaylı Sonuçları</h1>
+  <h3>Deneme ID: {{ examId }} - Öğrenci ID: {{ studentId }}</h3>
+
+  <div class="summary-cards">
+    <div class="card">
+      <h4>Türkçe</h4>
+      <p>Doğru: {{ examCompletion.turkishCorrectCount }}</p>
+      <p>Yanlış: {{ examCompletion.turkishWrongCount }}</p>
+      <p>Net: {{ (examCompletion.turkishCorrectCount - examCompletion.turkishWrongCount / 4) | number:'1.2-2' }}</p>
+    </div>
+    <div class="card">
+      <h4>Matematik</h4>
+      <p>Doğru: {{ examCompletion.mathCorrectCount }}</p>
+      <p>Yanlış: {{ examCompletion.mathWrongCount }}</p>
+      <p>Net: {{ (examCompletion.mathCorrectCount - examCompletion.mathWrongCount / 4) | number:'1.2-2' }}</p>
+    </div>
+    <div class="card">
+      <h4>Fen</h4>
+      <p>Doğru: {{ examCompletion.scienceCorrectCount }}</p>
+      <p>Yanlış: {{ examCompletion.scienceWrongCount }}</p>
+      <p>Net: {{ (examCompletion.scienceCorrectCount - examCompletion.scienceWrongCount / 4) | number:'1.2-2' }}</p>
+    </div>
+    <div class="card">
+      <h4>Tarih</h4>
+      <p>Doğru: {{ examCompletion.historyCorrectCount }}</p>
+      <p>Yanlış: {{ examCompletion.historyWrongCount }}</p>
+      <p>Net: {{ (examCompletion.historyCorrectCount - examCompletion.historyWrongCount / 4) | number:'1.2-2' }}</p>
+    </div>
+    <div class="card">
+      <h4>Din Kültürü</h4>
+      <p>Doğru: {{ examCompletion.religionCorrectCount }}</p>
+      <p>Yanlış: {{ examCompletion.religionWrongCount }}</p>
+      <p>Net: {{ (examCompletion.religionCorrectCount - examCompletion.religionWrongCount / 4) | number:'1.2-2' }}</p>
+    </div>
+    <div class="card">
+      <h4>Yabancı Dil</h4>
+      <p>Doğru: {{ examCompletion.foreignLanguageCorrectCount }}</p>
+      <p>Yanlış: {{ examCompletion.foreignLanguageWrongCount }}</p>
+      <p>Net: {{ (examCompletion.foreignLanguageCorrectCount - examCompletion.foreignLanguageWrongCount / 4) | number:'1.2-2' }}</p>
+    </div>
+  </div>
+
+  <!-- Konu bazlı detaylar -->
+  <div class="subject-details" *ngIf="turkishSubjects.length">
+    <h2>Türkçe Konu Bazlı Yanlış & Boş</h2>
+    <ul>
+      <li *ngFor="let sub of turkishSubjects">
+        <strong>{{ sub.subject }}:</strong> Yanlış {{ sub.wrongCount }}, Boş {{ sub.emptyCount }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="subject-details" *ngIf="mathSubjects.length">
+    <h2>Matematik Konu Bazlı Yanlış & Boş</h2>
+    <ul>
+      <li *ngFor="let sub of mathSubjects">
+        <strong>{{ sub.subject }}:</strong> Yanlış {{ sub.wrongCount }}, Boş {{ sub.emptyCount }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="subject-details" *ngIf="scienceSubjects.length">
+    <h2>Fen Konu Bazlı Yanlış & Boş</h2>
+    <ul>
+      <li *ngFor="let sub of scienceSubjects">
+        <strong>{{ sub.subject }}:</strong> Yanlış {{ sub.wrongCount }}, Boş {{ sub.emptyCount }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="subject-details" *ngIf="historySubjects.length">
+    <h2>Tarih Konu Bazlı Yanlış & Boş</h2>
+    <ul>
+      <li *ngFor="let sub of historySubjects">
+        <strong>{{ sub.subject }}:</strong> Yanlış {{ sub.wrongCount }}, Boş {{ sub.emptyCount }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="subject-details" *ngIf="religionSubjects.length">
+    <h2>Din Kültürü Konu Bazlı Yanlış & Boş</h2>
+    <ul>
+      <li *ngFor="let sub of religionSubjects">
+        <strong>{{ sub.subject }}:</strong> Yanlış {{ sub.wrongCount }}, Boş {{ sub.emptyCount }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="subject-details" *ngIf="foreignLanguageSubjects.length">
+    <h2>Yabancı Dil Konu Bazlı Yanlış & Boş</h2>
+    <ul>
+      <li *ngFor="let sub of foreignLanguageSubjects">
+        <strong>{{ sub.subject }}:</strong> Yanlış {{ sub.wrongCount }}, Boş {{ sub.emptyCount }}
+      </li>
+    </ul>
+  </div>
+
+</div>

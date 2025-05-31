@@ -17,6 +17,7 @@
           <th>Tarih</th>
           <th>Din Kültürü</th>
           <th>Yabancı Dil</th>
+          <th>Konu Bazlı İncele</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +30,11 @@
           <td>{{ r.historyNet }}</td>
           <td>{{ r.religionNet }}</td>
           <td>{{ r.foreignLanguageNet }}</td>
+          <td>
+            <a [routerLink]="['/admin/view-detailed-result', examId, r.studentId]" class="btn btn-primary">
+              İncele
+            </a>
+          </td>
         </tr>
         <tr *ngIf="results.length === 0">
           <td colspan="4" class="no-data">Hiç sonuç yok.</td>
