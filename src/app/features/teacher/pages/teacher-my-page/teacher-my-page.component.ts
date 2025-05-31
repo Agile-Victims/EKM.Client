@@ -121,12 +121,9 @@ export class TeacherMyPageComponent{
     const classes = this.selectedLessons.join('/');
     this.teacherService.updateMyLessons(classes).pipe(
       tap(response => {
-        if (response.success) {
-          this.successMessage = 'Ders seçiminiz kaydedildi.';
-          this.warningMessage = '';
-          setTimeout(() => {
-            this.successMessage = '';
-          }, 3000);
+        if (response.body === 'Classes updated successfully') {
+          window.alert(`Ders bilgisi kaydedildi`);
+          window.location.reload();
         }
       }),
       catchError(error => {
@@ -146,7 +143,6 @@ export class TeacherMyPageComponent{
       return;
     }
 
-    // Check if lesson is in selected lessons
     if (!this.selectedLessons.includes(lesson)) {
       this.warningMessage = 'Sadece verdiğiniz derslere konu ekleyebilirsiniz.';
       setTimeout(() => {
@@ -155,28 +151,12 @@ export class TeacherMyPageComponent{
       return;
     }
 
-    // Convert lesson name to backend format
     const lessonKey = this.getLessonKey(lesson);
-    
-    // Send to backend immediately
+
     this.subjectService.addSubject(lessonKey, subjectInput).pipe(
       tap(response => {
-        if (response.success) {
-          // Update local subjects
-          if (!this.teacherSubjects[lesson]) {
-            this.teacherSubjects[lesson] = subjectInput;
-          } else {
-            this.teacherSubjects[lesson] += '/' + subjectInput;
-          }
-          
-          // Clear input
-          this.newSubjectInput[lesson] = '';
-          
-          this.successMessage = 'Konu eklendi.';
-          this.warningMessage = '';
-          setTimeout(() => {
-            this.successMessage = '';
-          }, 3000);
+        if (response.id != 0) {
+          window.location.reload(); // Sayfayı yenile
         }
       }),
       catchError(error => {
@@ -192,31 +172,19 @@ export class TeacherMyPageComponent{
     
     // Send delete request to backend
     this.subjectService.deleteSubject(lessonKey, subjectToRemove).pipe(
-      tap(response => {
-        if (response.success) {
-          // Update local subjects
-          if (this.teacherSubjects[lesson]) {
-            const subjects = this.teacherSubjects[lesson].split('/');
-            this.teacherSubjects[lesson] = subjects
-              .filter(subject => subject !== subjectToRemove)
-              .join('/');
-            
-            if (this.teacherSubjects[lesson] === '') {
-              delete this.teacherSubjects[lesson];
-            }
-          }
-          
-          this.successMessage = 'Konu silindi.';
-          setTimeout(() => {
-            this.successMessage = '';
-          }, 3000);
-        }
-      }),
-      catchError(error => {
-        window.alert(`Konu silinemedi`);
-        return throwError(() => error);
-      })
-    ).subscribe();
+    tap(response => {
+      console.log(response);
+      if (response && response.success) {
+         window.location.reload();
+      } else {
+        window.alert(response?.message || 'Silme işlemi başarısız oldu.');
+      }
+    }),
+    catchError(error => {
+      window.alert(`Konu silinemedi`);
+      return throwError(() => error);
+    })
+  ).subscribe();
   }
 
   getSubjectsForLesson(lesson: string): string[] {

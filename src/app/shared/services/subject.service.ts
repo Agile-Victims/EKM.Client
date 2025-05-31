@@ -18,17 +18,20 @@ export class SubjectService {
   }
 
   addSubject(lesson: string, subject: string): Observable<any> {
-    const payload: SubjectPayload = {
-      lesson,
-      subject
+    const payload = {
+      lessonName: lesson,
+      subjectName: subject
     };
     
     return this.http.post<any>(`${apiUrl}/${this.apiName}/addSubject`, payload);
   }
 
-  deleteSubject(lesson: string, subjectName: string): Observable<any> {
-    return this.http.delete<any>(
-      `${apiUrl}/${this.apiName}/deleteSubject/${lesson}/${subjectName}`
-    );
+  deleteSubject(lesson: string, subject: string): Observable<any> {
+    const payload = {
+      lessonName: lesson,
+      subjectName: subject
+    };
+
+    return this.http.post<any>(`${apiUrl}/${this.apiName}/deleteSubject`, payload);
   }
 }
